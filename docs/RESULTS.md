@@ -2,7 +2,7 @@
 
 The final selected model is the **BiomedCLIP adapter probe**.
 
-This result page follows the same reporting basis as the submitted PDF and `results/final_model_comparison_table.csv`.
+This result page follows the same reporting basis as `results/final_model_comparison_table.csv`.
 
 ## Final Selected Model
 
@@ -40,6 +40,6 @@ Precision is moderate, so false positives remain meaningful. The model should be
 
 ## Files
 
-- `results/final_model_comparison_table.csv`: final comparison table used by the PDF and README
+- `results/final_model_comparison_table.csv`: final comparison table used by the README and result summary
 - `results/adapter_probe_oof_metrics.json`: raw audit artifact from recalculated OOF outputs
 - `results/adapter_probe_oof_patient_predictions.csv`: patient-level prediction artifact

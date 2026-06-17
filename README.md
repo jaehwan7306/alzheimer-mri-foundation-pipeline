@@ -8,14 +8,6 @@ The project started from BiomedCLIP-based MRI classification, corrected feature 
 
 ![Final pipeline](assets/01_final_pipeline_diagram.png)
 
-## Submitted Report Alignment
-
-This README follows the submitted project PDF:
-
-`202221763_정재환_Foundation_model_Project.pdf`
-
-The main performance numbers below use the same rounded reporting basis as the PDF and `results/final_model_comparison_table.csv`.
-
 ## Project Summary
 
 - **Task:** patient-level `NonDemented` vs `Demented` screening
@@ -43,7 +35,7 @@ The selected threshold was interpreted for a screening setting, where reducing f
 
 Full comparison is available in [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv).
 
-`results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact from recalculated patient-level OOF outputs. The submitted PDF and README use the final comparison-table reporting values above to keep the presentation, repository summary, and model-selection discussion consistent.
+`results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact from recalculated patient-level OOF outputs. The README and comparison table use the rounded final reporting values above so that the repository summary and model-selection discussion remain consistent.
 
 ## Result Interpretation
 
@@ -51,7 +43,7 @@ Full comparison is available in [`results/final_model_comparison_table.csv`](res
 
 Zero-shot BiomedCLIP uses prompt-image similarity without dataset-specific decision-boundary learning. In this MRI task, Alzheimer-related differences are subtle and class imbalance is strong, so prompt similarity alone produced low sensitivity and weak AUROC/AUPRC.
 
-PDF summary:
+Zero-shot baseline summary:
 
 - Zero-shot AUROC: 0.486
 - Zero-shot AUPRC: 0.268

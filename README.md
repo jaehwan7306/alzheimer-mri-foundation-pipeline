@@ -8,6 +8,14 @@ The project started from BiomedCLIP-based MRI classification, corrected feature 
 
 ![Final pipeline](assets/01_final_pipeline_diagram.png)
 
+## Submitted Report Alignment
+
+This README follows the submitted project PDF:
+
+`202221763_정재환_Foundation_model_Project.pdf`
+
+The main performance numbers below use the same rounded reporting basis as the PDF and `results/final_model_comparison_table.csv`.
+
 ## Project Summary
 
 - **Task:** patient-level `NonDemented` vs `Demented` screening
@@ -19,37 +27,75 @@ The project started from BiomedCLIP-based MRI classification, corrected feature 
 
 ## Final Model Performance
 
-Patient-level 5-fold OOF result for the final BiomedCLIP adapter probe:
+Final selected model: **BiomedCLIP adapter probe**.
+
+The selected threshold was interpreted for a screening setting, where reducing false negatives is more important than maximizing precision.
 
 | Metric | Value |
 |---|---:|
-| Sensitivity | 0.889 |
+| Sensitivity | 0.887 |
 | Specificity | 0.823 |
-| F1 | 0.720 |
-| Macro F1 | 0.803 |
-| AUROC | 0.899 |
-| AUPRC | 0.665 |
+| Precision | 0.604 |
+| F1 | 0.718 |
+| Macro F1 | 0.802 |
+| AUROC | 0.901 |
+| AUPRC | 0.695 |
 
 Full comparison is available in [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv).
+
+`results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact from recalculated patient-level OOF outputs. The submitted PDF and README use the final comparison-table reporting values above to keep the presentation, repository summary, and model-selection discussion consistent.
+
+## Result Interpretation
+
+### Why Zero-Shot Was Weak
+
+Zero-shot BiomedCLIP uses prompt-image similarity without dataset-specific decision-boundary learning. In this MRI task, Alzheimer-related differences are subtle and class imbalance is strong, so prompt similarity alone produced low sensitivity and weak AUROC/AUPRC.
+
+PDF summary:
+
+- Zero-shot AUROC: 0.486
+- Zero-shot AUPRC: 0.268
+- Zero-shot sensitivity: 0.223
+
+### Why Probe-Based Adaptation Was Needed
+
+Linear and adapter probes keep the BiomedCLIP image encoder frozen but learn a dataset-specific classifier on top of the extracted features. This corrected the main zero-shot limitation: the model needed a task-specific boundary between `NonDemented` and `Demented` patients.
+
+### Why Adapter Probe Was Selected
+
+The adapter probe was selected because it matched the project objective: parameter-efficient foundation-model adaptation for a sensitivity-first screening task.
+
+- Compared with zero-shot, it greatly improved sensitivity, F1, AUROC, and AUPRC.
+- Compared with a linear probe, it added a small nonlinear adaptation layer and improved the screening-oriented balance.
+- Compared with LoRA/internal fine-tuning, it was more stable on the small dataset.
+- Compared with the CNN baseline, it did not win every metric, but it better matched the foundation-model adaptation objective and achieved higher sensitivity.
+
+Important caveat: the EfficientNet CNN baseline had higher AUROC/AUPRC in the comparison table. Therefore, the correct conclusion is not "foundation model beats CNN in every metric." The correct conclusion is:
+
+> BiomedCLIP adapter probe was selected because it best matched the foundation-model project goal and sensitivity-first screening objective, while CNN remained a strong supervised baseline for ranking metrics.
+
+### Precision and False Positives
+
+The final adapter probe has moderate precision. This means some `NonDemented` patients can be flagged as `Demented`. For screening, this is acceptable only as a first-pass warning signal; it must not be interpreted as diagnosis.
 
 ## Repository Structure
 
 ```text
 .
-├── README.md
-├── config.example.json
-├── requirements.txt
-├── environment.yml
-├── src/dl_project_repro/       # reusable Python code
-├── scripts/                    # step-by-step reproduction scripts
-├── notebooks/                  # final reproducible notebook
-├── notebooks/archive/          # legacy experiment notebooks
-├── docs/                       # project write-up and method notes
-├── results/                    # saved CSV/JSON results
-├── checkpoints/                # adapter probe checkpoints
-├── reports/                    # LLM prompts and generated reports
-├── assets/                     # figures for README/PPT
-└── outputs/                    # generated outputs, cache, temporary files
+|-- README.md
+|-- config.example.json
+|-- requirements.txt
+|-- environment.yml
+|-- src/dl_project_repro/       # reusable Python code
+|-- scripts/                    # step-by-step reproduction scripts
+|-- notebooks/                  # final reproducible notebook
+|-- notebooks/archive/          # legacy experiment notebooks
+|-- docs/                       # project write-up and method notes
+|-- results/                    # saved CSV/JSON results
+|-- checkpoints/                # adapter probe checkpoints
+|-- reports/                    # LLM prompts and generated reports
+|-- assets/                     # figures for README/PPT
+|-- outputs/                    # generated outputs, cache, temporary files
 ```
 
 ## Quick Start
@@ -148,7 +194,7 @@ python scripts\05_generate_llm_reports.py --config config.local.json
    `ModerateDemented` had too few patients for stable 4-class evaluation.
 
 4. **BiomedCLIP adapter probe was selected as the final foundation-model classifier.**  
-   It adapts frozen BiomedCLIP features with a small trainable head and was more stable than heavier fine-tuning attempts on small data.
+   The selection was based on sensitivity-first screening and parameter-efficient foundation-model adaptation, not on claiming dominance over CNN in every metric.
 
 5. **SAM and occlusion were used for explanation, not diagnosis.**  
    SAM foreground is not lesion segmentation. Occlusion heatmap is model-derived importance, not clinical ROI.
@@ -169,6 +215,8 @@ python scripts\05_generate_llm_reports.py --config config.local.json
 - This project uses 2D slices, not full 3D MRI volumes.
 - The dataset is small and imbalanced.
 - Stage 1 binary screening is more stable than 4-class severity classification, but it is less clinically granular.
+- The final model prioritizes sensitivity, so false positives remain a limitation.
+- CNN baseline remains stronger in some ranking metrics such as AUROC/AUPRC.
 - SAM is a general segmentation foundation model and should not be interpreted as Alzheimer lesion segmentation.
 - LLM output is only a report-style summary of model outputs.
 

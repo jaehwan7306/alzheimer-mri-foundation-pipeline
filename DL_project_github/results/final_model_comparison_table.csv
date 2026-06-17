@@ -1,7 +1,0 @@
-﻿Method,Category,Folds,Trainable Params,Trainable Ratio (%),Sensitivity,Specificity,Precision,F1,Macro F1,AUROC,AUPRC,Threshold,Note
-BiomedCLIP zero-shot,Foundation zero-shot,5,0,0.0,0.2228,0.7781,0.2306,0.2255,0.4988,0.4859,0.268,0.5,Prompt only
-BiomedCLIP linear probe,Frozen encoder probe,5,"1,026",0.0005,0.839,0.7896,0.5496,0.6624,0.7605,0.898,0.687,0.36,Frozen image feature + linear
-BiomedCLIP adapter probe,Frozen encoder adapter,5,"133,762",0.0683,0.8875,0.8233,0.604,0.7176,0.8021,0.901,0.6947,0.4,Final foundation candidate
-BiomedCLIP LoRA,Model-internal PEFT,5,"74,754",0.0381,0.814,0.8272,0.5921,0.6761,0.7771,0.8958,0.6728,0.405,"BiomedCLIP weight frozen, LoRA only"
-BiomedCLIP Internal Adapter,Model-internal adapter,1,"199,298",0.1016,0.9375,0.7778,0.5556,0.6977,0.7818,0.9016,0.6419,0.325,Fold 1 only
-EfficientNet CNN baseline,Supervised CNN,5,,,0.7757,0.8572,0.6273,0.6903,0.7904,0.9122,0.7336,0.45,"Supervised baseline, threshold target 0.85"

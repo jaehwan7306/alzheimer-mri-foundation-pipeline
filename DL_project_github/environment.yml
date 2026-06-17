@@ -1,0 +1,24 @@
+name: alzheimer-repro
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - pillow
+  - tqdm
+  - requests
+  - ipykernel
+  - pip:
+      - torch
+      - torchvision
+      - open_clip_torch
+      - opencv-python
+      - segment-anything
+      - nbformat

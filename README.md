@@ -37,6 +37,10 @@ The pipeline separates **screening** from **visual context generation**, then co
 
 ## Key Research Decisions
 
+<p align="center">
+  <img src="assets/02_project_decision_flow.svg" alt="Project decision flow" width="900" />
+</p>
+
 ### 1. Preventing slice leakage
 
 The original image-level split was replaced with a **patient-level split**. Multiple MRI slices from the same patient must not appear across both train and test sets, because this can leak patient-specific information and overestimate performance.
@@ -241,7 +245,7 @@ python scripts\05_generate_llm_reports.py --config config.local.json
 ## Additional Figures
 
 - Detailed original pipeline: [`assets/01_final_pipeline_diagram.png`](assets/01_final_pipeline_diagram.png)
-- Project decision flow: [`assets/02_project_decision_flow.png`](assets/02_project_decision_flow.png)
+- Project decision flow: [`assets/02_project_decision_flow.svg`](assets/02_project_decision_flow.svg)
 - Dataset distribution: [`assets/03_dataset_patient_distribution.png`](assets/03_dataset_patient_distribution.png)
 - Model comparison: [`assets/04_model_metric_comparison.png`](assets/04_model_metric_comparison.png)
 - Final model scorecard: [`assets/06_final_model_scorecard.png`](assets/06_final_model_scorecard.png)

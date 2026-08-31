@@ -83,11 +83,13 @@ SAM foreground masks and occlusion heatmaps are used only as **model-side visual
 
 ## Representative Visual Evidence
 
+The representative explanation is intentionally kept to a single case, **OAS1_0199**, so the visual evidence and the downstream LLM report refer to the same patient.
+
 <p align="center">
-  <img src="assets/09_sam_occlusion_representative_cases.png" alt="Representative SAM and occlusion cases" width="900" />
+  <img src="assets/09_OAS1_0199_visual_evidence.webp" alt="OAS1_0199 SAM and occlusion visual evidence" width="900" />
 </p>
 
-SAM is used to provide brain-region context, while occlusion sensitivity helps show which image regions most affect the model prediction.
+For this case, the representative slice has `P(Demented) = 0.945`, and the maximum confidence drop under occlusion is `0.7735`. SAM is used only for brain foreground/context, while the occlusion map shows model-sensitive regions rather than clinical ROIs.
 
 ## Report Generation
 
@@ -97,11 +99,13 @@ The final stage converts model outputs into a structured representation and send
   <img src="assets/10_llm_report_generation_flow.png" alt="LLM report generation flow" width="850" />
 </p>
 
-The LLM is therefore a **report-generation module**, not an MRI classifier.
+The LLM is therefore a **report-generation module**, not an MRI classifier. The example below uses the **same OAS1_0199 case** shown in the visual evidence above.
 
 <p align="center">
-  <img src="assets/11_llm_report_example.png" alt="Example generated screening report" width="850" />
+  <img src="assets/11_OAS1_0199_screening_report.svg" alt="OAS1_0199 example generated screening report" width="850" />
 </p>
+
+The underlying structured input for OAS1_0199 contains patient-level `P(Demented) = 0.4215`, threshold `0.4000`, representative-slice `P(Demented) = 0.945`, and occlusion max confidence drop `0.7735`. The full generated report is retained in [`reports/llm_reports/OAS1_0199_llm_report.md`](reports/llm_reports/OAS1_0199_llm_report.md).
 
 ## Final Model Performance
 
@@ -241,7 +245,7 @@ python scripts\05_generate_llm_reports.py --config config.local.json
 - Dataset distribution: [`assets/03_dataset_patient_distribution.png`](assets/03_dataset_patient_distribution.png)
 - Model comparison: [`assets/04_model_metric_comparison.png`](assets/04_model_metric_comparison.png)
 - Final model scorecard: [`assets/06_final_model_scorecard.png`](assets/06_final_model_scorecard.png)
-- SAM/Occlusion cases: [`assets/09_sam_occlusion_representative_cases.png`](assets/09_sam_occlusion_representative_cases.png)
+- Full SAM/Occlusion case panel: [`assets/09_sam_occlusion_representative_cases.png`](assets/09_sam_occlusion_representative_cases.png)
 
 ## Repository Notes
 

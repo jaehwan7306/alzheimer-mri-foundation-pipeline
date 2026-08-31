@@ -5,7 +5,7 @@ A patient-level Alzheimer MRI screening pipeline combining **BiomedCLIP**, **SAM
 > Research prototype for screening experiments — **not a medical diagnostic system**.
 
 <p align="center">
-  <img src="assets/readme/01_pipeline_overview.svg" alt="Alzheimer MRI multi-foundation screening pipeline" width="900" />
+  <img src="assets/01_pipeline_overview.svg" alt="Alzheimer MRI multi-foundation screening pipeline" width="900" />
 </p>
 
 ## Key Results
@@ -19,7 +19,7 @@ A patient-level Alzheimer MRI screening pipeline combining **BiomedCLIP**, **SAM
 The operating threshold was chosen for a **sensitivity-first screening setting**, where reducing false negatives is prioritized over maximizing precision.
 
 <p align="center">
-  <img src="assets/readme/04_model_metric_comparison.png" alt="Model metric comparison" width="850" />
+  <img src="assets/04_model_metric_comparison.png" alt="Model metric comparison" width="850" />
 </p>
 
 The BiomedCLIP adapter probe is the **final selected classifier**, chosen for sensitivity-first screening and parameter-efficient foundation-model adaptation. EfficientNet remains stronger on AUROC/AUPRC.
@@ -86,7 +86,7 @@ SAM foreground masks and occlusion heatmaps are used only as **model-side visual
 The representative explanation is intentionally kept to a single case, **OAS1_0199**, so the visual evidence and the downstream LLM report refer to the same patient.
 
 <p align="center">
-  <img src="assets/readme/09_OAS1_0199_visual_evidence.png" alt="OAS1_0199 SAM and occlusion visual evidence" width="900" />
+  <img src="assets/09_OAS1_0199_visual_evidence.png" alt="OAS1_0199 SAM and occlusion visual evidence" width="900" />
 </p>
 
 For this case, the representative slice has `P(Demented) = 0.945`, and the maximum confidence drop under occlusion is `0.7735`. SAM is used only for brain foreground/context, while the occlusion map shows model-sensitive regions rather than clinical ROIs.
@@ -96,13 +96,13 @@ For this case, the representative slice has `P(Demented) = 0.945`, and the maxim
 The final stage converts model outputs into a structured representation and sends that representation to a local LLM.
 
 <p align="center">
-  <img src="assets/readme/10_llm_report_generation_flow.svg" alt="LLM report generation flow via LM Studio" width="850" />
+  <img src="assets/10_llm_report_generation_flow.svg" alt="LLM report generation flow via LM Studio" width="850" />
 </p>
 
 The LLM is served locally through **LM Studio** and is used only as a **report-generation module**. It receives structured screening outputs rather than MRI images directly. The example below uses the **same OAS1_0199 case** shown in the visual evidence above.
 
 <p align="center">
-  <img src="assets/readme/11_OAS1_0199_screening_report.svg" alt="OAS1_0199 example generated screening report" width="850" />
+  <img src="assets/11_OAS1_0199_screening_report.svg" alt="OAS1_0199 example generated screening report" width="850" />
 </p>
 
 The underlying structured input for OAS1_0199 contains patient-level `P(Demented) = 0.4215`, threshold `0.4000`, representative-slice `P(Demented) = 0.945`, and occlusion max confidence drop `0.7735`. The full generated report is retained in [`reports/llm_reports/OAS1_0199_llm_report.md`](reports/llm_reports/OAS1_0199_llm_report.md).
@@ -232,9 +232,7 @@ python scripts\05_generate_llm_reports.py --config config.local.json
 |-- results/                    # saved CSV/JSON results
 |-- checkpoints/                # adapter probe checkpoints
 |-- reports/                    # LLM prompts and generated reports
-|-- assets/
-|   |-- readme/                 # polished README and reference visualizations
-|   `-- supplementary/          # detailed supporting figures
+|-- assets/                     # project visualizations
 |-- outputs/                    # generated outputs, cache, temporary files
 ```
 
@@ -244,11 +242,11 @@ python scripts\05_generate_llm_reports.py --config config.local.json
 
 These figures are retained as supporting material for deeper inspection rather than being inserted into every section of the main README.
 
-- Project decision flow: [`assets/readme/02_project_decision_flow.svg`](assets/readme/02_project_decision_flow.svg)
-- Dataset distribution and binary task redefinition: [`assets/readme/03_dataset_patient_distribution.svg`](assets/readme/03_dataset_patient_distribution.svg)
-- Adapter probe confusion matrix: [`assets/readme/07_confusion_matrix_adapter.svg`](assets/readme/07_confusion_matrix_adapter.svg)
-- Detailed pipeline: [`assets/supplementary/detailed_pipeline.png`](assets/supplementary/detailed_pipeline.png)
-- Full SAM/Occlusion case panel: [`assets/supplementary/sam_occlusion_all_cases.png`](assets/supplementary/sam_occlusion_all_cases.png)
+- Project decision flow: [`assets/02_project_decision_flow.svg`](assets/02_project_decision_flow.svg)
+- Dataset distribution and binary task redefinition: [`assets/03_dataset_patient_distribution.svg`](assets/03_dataset_patient_distribution.svg)
+- Adapter probe confusion matrix: [`assets/07_confusion_matrix_adapter.svg`](assets/07_confusion_matrix_adapter.svg)
+- Detailed pipeline: [`assets/detailed_pipeline.png`](assets/detailed_pipeline.png)
+- Full SAM/Occlusion case panel: [`assets/sam_occlusion_all_cases.png`](assets/sam_occlusion_all_cases.png)
 
 ## Repository Notes
 

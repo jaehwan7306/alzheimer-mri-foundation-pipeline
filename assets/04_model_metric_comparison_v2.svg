@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760">
+  <defs>
+    <style>
+      .title { font: 700 34px Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 400 18px Arial, sans-serif; fill: #4b5563; }
+      .header { font: 700 17px Arial, sans-serif; fill: #1f2937; }
+      .cell { font: 500 16px Arial, sans-serif; fill: #374151; }
+      .model { font: 700 16px Arial, sans-serif; fill: #111827; }
+      .selected { font: 700 16px Arial, sans-serif; fill: #b91c1c; }
+      .note { font: 500 15px Arial, sans-serif; fill: #4b5563; }
+      .selected-note { font: 700 19px Arial, sans-serif; fill: #b91c1c; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="760" fill="#ffffff"/>
+  <text x="750" y="52" text-anchor="middle" class="title">Model Performance Comparison</text>
+  <text x="750" y="82" text-anchor="middle" class="subtitle">Patient-level evaluation metrics</text>
+
+  <!-- Header -->
+  <rect x="55" y="120" width="1390" height="58" rx="10" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="170" y="155" text-anchor="middle" class="header">Model</text>
+  <text x="420" y="155" text-anchor="middle" class="header">Sensitivity</text>
+  <text x="560" y="155" text-anchor="middle" class="header">Specificity</text>
+  <text x="700" y="155" text-anchor="middle" class="header">Precision</text>
+  <text x="820" y="155" text-anchor="middle" class="header">F1</text>
+  <text x="940" y="155" text-anchor="middle" class="header">Macro F1</text>
+  <text x="1070" y="155" text-anchor="middle" class="header">AUROC</text>
+  <text x="1200" y="155" text-anchor="middle" class="header">AUPRC</text>
+  <text x="1355" y="155" text-anchor="middle" class="header">Folds</text>
+
+  <!-- Row 1 -->
+  <rect x="55" y="185" width="1390" height="68" rx="8" fill="#ffffff" stroke="#d1d5db"/>
+  <text x="170" y="213" text-anchor="middle" class="model"><tspan x="170">BiomedCLIP</tspan><tspan x="170" dy="20">Zero-shot</tspan></text>
+  <text x="420" y="226" text-anchor="middle" class="cell">0.223</text>
+  <text x="560" y="226" text-anchor="middle" class="cell">0.778</text>
+  <text x="700" y="226" text-anchor="middle" class="cell">0.231</text>
+  <text x="820" y="226" text-anchor="middle" class="cell">0.226</text>
+  <text x="940" y="226" text-anchor="middle" class="cell">0.499</text>
+  <text x="1070" y="226" text-anchor="middle" class="cell">0.486</text>
+  <text x="1200" y="226" text-anchor="middle" class="cell">0.268</text>
+  <text x="1355" y="226" text-anchor="middle" class="cell">5</text>
+
+  <!-- Row 2 -->
+  <rect x="55" y="258" width="1390" height="68" rx="8" fill="#f9fafb" stroke="#d1d5db"/>
+  <text x="170" y="286" text-anchor="middle" class="model"><tspan x="170">BiomedCLIP</tspan><tspan x="170" dy="20">Linear Probe</tspan></text>
+  <text x="420" y="299" text-anchor="middle" class="cell">0.839</text>
+  <text x="560" y="299" text-anchor="middle" class="cell">0.790</text>
+  <text x="700" y="299" text-anchor="middle" class="cell">0.550</text>
+  <text x="820" y="299" text-anchor="middle" class="cell">0.662</text>
+  <text x="940" y="299" text-anchor="middle" class="cell">0.761</text>
+  <text x="1070" y="299" text-anchor="middle" class="cell">0.898</text>
+  <text x="1200" y="299" text-anchor="middle" class="cell">0.687</text>
+  <text x="1355" y="299" text-anchor="middle" class="cell">5</text>
+
+  <!-- Selected row -->
+  <rect x="48" y="331" width="1404" height="82" rx="10" fill="#ffd6d6" stroke="#dc2626" stroke-width="4"/>
+  <text x="170" y="361" text-anchor="middle" class="selected"><tspan x="170">BiomedCLIP</tspan><tspan x="170" dy="21">Adapter Probe</tspan></text>
+  <text x="420" y="379" text-anchor="middle" class="selected">0.888</text>
+  <text x="560" y="379" text-anchor="middle" class="selected">0.823</text>
+  <text x="700" y="379" text-anchor="middle" class="selected">0.604</text>
+  <text x="820" y="379" text-anchor="middle" class="selected">0.718</text>
+  <text x="940" y="379" text-anchor="middle" class="selected">0.802</text>
+  <text x="1070" y="379" text-anchor="middle" class="selected">0.901</text>
+  <text x="1200" y="379" text-anchor="middle" class="selected">0.695</text>
+  <text x="1355" y="379" text-anchor="middle" class="selected">5</text>
+
+  <!-- Row 4 -->
+  <rect x="55" y="420" width="1390" height="68" rx="8" fill="#f9fafb" stroke="#d1d5db"/>
+  <text x="170" y="448" text-anchor="middle" class="model"><tspan x="170">BiomedCLIP</tspan><tspan x="170" dy="20">LoRA</tspan></text>
+  <text x="420" y="461" text-anchor="middle" class="cell">0.814</text>
+  <text x="560" y="461" text-anchor="middle" class="cell">0.827</text>
+  <text x="700" y="461" text-anchor="middle" class="cell">0.592</text>
+  <text x="820" y="461" text-anchor="middle" class="cell">0.676</text>
+  <text x="940" y="461" text-anchor="middle" class="cell">0.777</text>
+  <text x="1070" y="461" text-anchor="middle" class="cell">0.896</text>
+  <text x="1200" y="461" text-anchor="middle" class="cell">0.673</text>
+  <text x="1355" y="461" text-anchor="middle" class="cell">5</text>
+
+  <!-- Row 5 -->
+  <rect x="55" y="493" width="1390" height="68" rx="8" fill="#ffffff" stroke="#d1d5db"/>
+  <text x="170" y="521" text-anchor="middle" class="model"><tspan x="170">BiomedCLIP</tspan><tspan x="170" dy="20">Internal Adapter*</tspan></text>
+  <text x="420" y="534" text-anchor="middle" class="cell">0.938</text>
+  <text x="560" y="534" text-anchor="middle" class="cell">0.778</text>
+  <text x="700" y="534" text-anchor="middle" class="cell">0.556</text>
+  <text x="820" y="534" text-anchor="middle" class="cell">0.698</text>
+  <text x="940" y="534" text-anchor="middle" class="cell">0.782</text>
+  <text x="1070" y="534" text-anchor="middle" class="cell">0.902</text>
+  <text x="1200" y="534" text-anchor="middle" class="cell">0.642</text>
+  <text x="1355" y="534" text-anchor="middle" class="cell">1</text>
+
+  <!-- Row 6 -->
+  <rect x="55" y="566" width="1390" height="68" rx="8" fill="#f9fafb" stroke="#d1d5db"/>
+  <text x="170" y="594" text-anchor="middle" class="model"><tspan x="170">EfficientNet</tspan><tspan x="170" dy="20">CNN Baseline</tspan></text>
+  <text x="420" y="607" text-anchor="middle" class="cell">0.776</text>
+  <text x="560" y="607" text-anchor="middle" class="cell">0.857</text>
+  <text x="700" y="607" text-anchor="middle" class="cell">0.627</text>
+  <text x="820" y="607" text-anchor="middle" class="cell">0.690</text>
+  <text x="940" y="607" text-anchor="middle" class="cell">0.790</text>
+  <text x="1070" y="607" text-anchor="middle" class="cell">0.912</text>
+  <text x="1200" y="607" text-anchor="middle" class="cell">0.734</text>
+  <text x="1355" y="607" text-anchor="middle" class="cell">5</text>
+
+  <rect x="55" y="658" width="650" height="48" rx="10" fill="#ffd6d6" stroke="#dc2626" stroke-width="2"/>
+  <text x="75" y="689" class="selected-note">FINAL SELECTED CLASSIFIER — BiomedCLIP Adapter Probe</text>
+
+  <text x="55" y="735" class="note">Selected for sensitivity-first screening and parameter-efficient foundation-model adaptation. EfficientNet remains stronger on AUROC/AUPRC. *Internal Adapter: Fold 1 only.</text>
+</svg>

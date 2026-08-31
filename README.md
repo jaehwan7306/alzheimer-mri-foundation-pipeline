@@ -86,7 +86,7 @@ SAM foreground masks and occlusion heatmaps are used only as **model-side visual
 The representative explanation is intentionally kept to a single case, **OAS1_0199**, so the visual evidence and the downstream LLM report refer to the same patient.
 
 <p align="center">
-  <img src="assets/09_OAS1_0199_visual_evidence.webp" alt="OAS1_0199 SAM and occlusion visual evidence" width="900" />
+  <img src="assets/09_OAS1_0199_visual_evidence.png" alt="OAS1_0199 SAM and occlusion visual evidence" width="900" />
 </p>
 
 For this case, the representative slice has `P(Demented) = 0.945`, and the maximum confidence drop under occlusion is `0.7735`. SAM is used only for brain foreground/context, while the occlusion map shows model-sensitive regions rather than clinical ROIs.

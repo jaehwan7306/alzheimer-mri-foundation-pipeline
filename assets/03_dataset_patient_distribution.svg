@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">Dataset Redefinition from Four Classes to Binary Screening</title>
+  <desc id="desc">Patient counts by original Alzheimer class and the final binary screening task.</desc>
+  <defs>
+    <style>
+      .title { font: 700 38px Arial, sans-serif; fill: #1F2937; }
+      .subtitle { font: 18px Arial, sans-serif; fill: #6B7280; }
+      .panel-title { font: 700 24px Arial, sans-serif; fill: #1F2937; }
+      .label { font: 18px Arial, sans-serif; fill: #4B5563; }
+      .count { font: 700 19px Arial, sans-serif; fill: #111827; }
+      .small { font: 16px Arial, sans-serif; fill: #6B7280; }
+      .note-title { font: 700 18px Arial, sans-serif; fill: #374151; }
+      .note { font: 17px Arial, sans-serif; fill: #4B5563; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748B"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="780" fill="#FFFFFF"/>
+  <text x="700" y="58" text-anchor="middle" class="title">Dataset Redefinition: 4-Class → Binary Screening</text>
+  <text x="700" y="92" text-anchor="middle" class="subtitle">Patient-level counts after grouping dementia severity classes for the final Stage 1 screening task.</text>
+
+  <rect x="70" y="140" width="570" height="505" rx="24" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="355" y="184" text-anchor="middle" class="panel-title">Original Patient Counts by Class</text>
+  <line x1="110" y1="205" x2="600" y2="205" stroke="#E5E7EB" stroke-width="2"/>
+
+  <text x="115" y="255" class="label">NonDemented</text>
+  <rect x="285" y="232" width="285" height="30" rx="15" fill="#E5E7EB"/>
+  <rect x="285" y="232" width="285" height="30" rx="15" fill="#2563EB"/>
+  <text x="585" y="254" class="count">266</text>
+
+  <text x="115" y="330" class="label">VeryMildDemented</text>
+  <rect x="285" y="307" width="285" height="30" rx="15" fill="#E5E7EB"/>
+  <rect x="285" y="307" width="62" height="30" rx="15" fill="#0F766E"/>
+  <text x="360" y="329" class="count">58</text>
+
+  <text x="115" y="405" class="label">MildDemented</text>
+  <rect x="285" y="382" width="285" height="30" rx="15" fill="#E5E7EB"/>
+  <rect x="285" y="382" width="23" height="30" rx="15" fill="#EA580C"/>
+  <text x="322" y="404" class="count">21</text>
+
+  <text x="115" y="480" class="label">ModerateDemented</text>
+  <rect x="285" y="457" width="285" height="30" rx="15" fill="#E5E7EB"/>
+  <rect x="285" y="457" width="5" height="30" rx="3" fill="#DC2626"/>
+  <text x="306" y="479" class="count">2</text>
+
+  <rect x="110" y="527" width="490" height="92" rx="18" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <text x="135" y="558" class="note-title">Class imbalance</text>
+  <text x="135" y="586" class="note">ModerateDemented has only 2 patients,</text>
+  <text x="135" y="610" class="note">limiting stable 4-class evaluation.</text>
+
+  <line x1="660" y1="385" x2="740" y2="385" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="700" y="356" text-anchor="middle" class="small">group severity</text>
+  <text x="700" y="377" text-anchor="middle" class="small">classes</text>
+
+  <rect x="760" y="140" width="570" height="505" rx="24" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
+  <text x="1045" y="184" text-anchor="middle" class="panel-title">Final Stage 1 Binary Task</text>
+  <line x1="800" y1="205" x2="1290" y2="205" stroke="#FED7AA" stroke-width="2"/>
+
+  <text x="805" y="290" class="label">NonDemented</text>
+  <rect x="980" y="267" width="280" height="36" rx="18" fill="#E5E7EB"/>
+  <rect x="980" y="267" width="280" height="36" rx="18" fill="#2563EB"/>
+  <text x="1278" y="292" class="count">266</text>
+  <text x="805" y="320" class="small">76.7% of patients</text>
+
+  <text x="805" y="410" class="label">Demented</text>
+  <rect x="980" y="387" width="280" height="36" rx="18" fill="#E5E7EB"/>
+  <rect x="980" y="387" width="85" height="36" rx="18" fill="#EA580C"/>
+  <text x="1082" y="412" class="count">81</text>
+  <text x="805" y="440" class="small">23.3% · VeryMild + Mild + Moderate</text>
+
+  <rect x="800" y="500" width="490" height="107" rx="18" fill="#FFFFFF" stroke="#FED7AA"/>
+  <text x="825" y="532" class="note-title">Binary screening definition</text>
+  <text x="825" y="558" class="note">Demented = 58 VeryMild + 21 Mild + 2 Moderate</text>
+  <text x="825" y="582" class="note">= 81 patients · Total patient-level dataset = 347</text>
+
+  <text x="700" y="715" text-anchor="middle" class="small">The task was simplified for more stable patient-level evaluation, not to imply clinical equivalence between dementia severities.</text>
+</svg>

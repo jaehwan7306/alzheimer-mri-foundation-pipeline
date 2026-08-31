@@ -19,18 +19,12 @@ A patient-level Alzheimer MRI screening pipeline combining **BiomedCLIP**, **SAM
 The operating threshold was chosen for a **sensitivity-first screening setting**, where reducing false negatives is prioritized over maximizing precision.
 
 <p align="center">
-  <img src="assets/04_model_metric_comparison_v2.svg" alt="Model performance comparison with selected classifier highlighted" width="950" />
+  <img src="assets/04_model_metric_comparison.png" alt="Model metric comparison" width="850" />
 </p>
 
-The highlighted row indicates the **final selected classifier**, not the best model on every metric. EfficientNet remains stronger on AUROC/AUPRC.
+The BiomedCLIP adapter probe is the **final selected classifier**, chosen for sensitivity-first screening and parameter-efficient foundation-model adaptation. EfficientNet remains stronger on AUROC/AUPRC.
 
 Full comparison: [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv)
-
-The comparison figure is reproducible from the CSV source:
-
-```powershell
-python scripts\06_plot_model_comparison.py
-```
 
 ## What This Project Does
 
@@ -215,12 +209,6 @@ Start the LM Studio local server, load the configured model, then run:
 python scripts\05_generate_llm_reports.py --config config.local.json
 ```
 
-### Figure — Regenerate model comparison
-
-```powershell
-python scripts\06_plot_model_comparison.py
-```
-
 </details>
 
 <details>
@@ -251,7 +239,7 @@ python scripts\06_plot_model_comparison.py
 - Detailed original pipeline: [`assets/01_final_pipeline_diagram.png`](assets/01_final_pipeline_diagram.png)
 - Project decision flow: [`assets/02_project_decision_flow.png`](assets/02_project_decision_flow.png)
 - Dataset distribution: [`assets/03_dataset_patient_distribution.png`](assets/03_dataset_patient_distribution.png)
-- Original model comparison: [`assets/04_model_metric_comparison.png`](assets/04_model_metric_comparison.png)
+- Model comparison: [`assets/04_model_metric_comparison.png`](assets/04_model_metric_comparison.png)
 - Final model scorecard: [`assets/06_final_model_scorecard.png`](assets/06_final_model_scorecard.png)
 - SAM/Occlusion cases: [`assets/09_sam_occlusion_representative_cases.png`](assets/09_sam_occlusion_representative_cases.png)
 

@@ -35,6 +35,25 @@ The pipeline separates **screening** from **visual context generation**, then co
 - **Structured screening output:** combines prediction results and explanation metadata.
 - **Local LLM:** generates a final report from structured model outputs; it does **not** classify MRI images directly.
 
+## Dataset & Data Source
+
+This project uses the Kaggle dataset **[OASIS Alzheimer's Detection](https://www.kaggle.com/datasets/ninadaithal/imagesoasis)** by Ninad Aithal, which is a processed 2D image derivative of the **OASIS-1 Cross-Sectional MRI dataset**.
+
+The original OASIS-1 dataset is maintained by the Open Access Series of Imaging Studies (OASIS). The Kaggle distribution converts the source MRI data into 2D image slices and provides four dementia-related folders that are used as the starting labels for this project.
+
+- **Processed dataset used in this project:** [OASIS Alzheimer's Detection — Kaggle](https://www.kaggle.com/datasets/ninadaithal/imagesoasis)
+- **Original source dataset:** [OASIS-1 Cross-Sectional MRI Data](https://www.oasis-brains.org/)
+- **Original OASIS-1 publication:** Marcus et al., *Journal of Cognitive Neuroscience*, 2007. DOI: [10.1162/jocn.2007.19.9.1498](https://doi.org/10.1162/jocn.2007.19.9.1498)
+
+For this project, patient identifiers were reconstructed from the image filenames before model evaluation. This resulted in **347 unique patients** in the working dataset. All train/test splits were then performed at the **patient level**, so slices from the same patient could not appear in both training and evaluation sets.
+
+The original four folders were later grouped into the binary Stage 1 screening task used throughout the final pipeline:
+
+- `NonDemented`
+- `Demented = VeryMildDemented + MildDemented + ModerateDemented`
+
+Raw medical images are **not included in this repository**. Users who want to reproduce the project should obtain the dataset from the original distribution source and configure `dataset_dir` locally.
+
 ## Key Research Decisions
 
 ### 1. Preventing slice leakage

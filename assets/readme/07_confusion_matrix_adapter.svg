@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
+  <title id="title">Adapter Probe Confusion Matrix</title>
+  <desc id="desc">Patient-level OOF confusion matrix for the selected BiomedCLIP adapter probe: 219 true negatives, 47 false positives, 9 false negatives, and 72 true positives.</desc>
+  <defs>
+    <style>
+      .title { font: 700 38px Arial, sans-serif; fill: #1F2937; }
+      .subtitle { font: 18px Arial, sans-serif; fill: #6B7280; }
+      .axis { font: 700 18px Arial, sans-serif; fill: #374151; }
+      .cell-label { font: 700 17px Arial, sans-serif; fill: #4B5563; }
+      .cell-value { font: 700 42px Arial, sans-serif; fill: #111827; }
+      .metric-title { font: 700 18px Arial, sans-serif; fill: #374151; }
+      .metric-value { font: 700 32px Arial, sans-serif; fill: #111827; }
+      .small { font: 16px Arial, sans-serif; fill: #6B7280; }
+      .note { font: 17px Arial, sans-serif; fill: #4B5563; }
+    </style>
+  </defs>
+  <rect width="1400" height="800" fill="#FFFFFF"/>
+  <text x="700" y="58" text-anchor="middle" class="title">Adapter Probe · Patient-Level Confusion Matrix</text>
+  <text x="700" y="92" text-anchor="middle" class="subtitle">Out-of-fold predictions across 347 patients at the selected screening operating point.</text>
+
+  <rect x="80" y="140" width="760" height="560" rx="24" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="460" y="185" text-anchor="middle" class="axis">Predicted class</text>
+  <text x="360" y="228" text-anchor="middle" class="axis">NonDemented</text>
+  <text x="610" y="228" text-anchor="middle" class="axis">Demented</text>
+  <text x="125" y="420" transform="rotate(-90 125 420)" text-anchor="middle" class="axis">Actual class</text>
+  <text x="210" y="340" text-anchor="middle" class="axis">NonDemented</text>
+  <text x="210" y="545" text-anchor="middle" class="axis">Demented</text>
+
+  <rect x="265" y="255" width="190" height="170" rx="20" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <text x="360" y="300" text-anchor="middle" class="cell-label">True Negative</text>
+  <text x="360" y="362" text-anchor="middle" class="cell-value">219</text>
+  <text x="360" y="397" text-anchor="middle" class="small">correct normal</text>
+
+  <rect x="515" y="255" width="190" height="170" rx="20" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
+  <text x="610" y="300" text-anchor="middle" class="cell-label">False Positive</text>
+  <text x="610" y="362" text-anchor="middle" class="cell-value">47</text>
+  <text x="610" y="397" text-anchor="middle" class="small">flagged for screening</text>
+
+  <rect x="265" y="460" width="190" height="170" rx="20" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="2"/>
+  <text x="360" y="505" text-anchor="middle" class="cell-label">False Negative</text>
+  <text x="360" y="567" text-anchor="middle" class="cell-value">9</text>
+  <text x="360" y="602" text-anchor="middle" class="small">missed positive</text>
+
+  <rect x="515" y="460" width="190" height="170" rx="20" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
+  <text x="610" y="505" text-anchor="middle" class="cell-label">True Positive</text>
+  <text x="610" y="567" text-anchor="middle" class="cell-value">72</text>
+  <text x="610" y="602" text-anchor="middle" class="small">correctly detected</text>
+
+  <rect x="885" y="140" width="435" height="560" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+  <text x="1102" y="185" text-anchor="middle" class="axis">Screening Summary</text>
+  <line x1="925" y1="205" x2="1280" y2="205" stroke="#E5E7EB" stroke-width="2"/>
+
+  <rect x="925" y="245" width="355" height="105" rx="18" fill="#F8FAFC" stroke="#E2E8F0"/>
+  <text x="950" y="280" class="metric-title">Sensitivity</text>
+  <text x="1255" y="307" text-anchor="end" class="metric-value">88.9%</text>
+  <text x="950" y="329" class="small">72 / 81 Demented patients detected</text>
+
+  <rect x="925" y="375" width="355" height="105" rx="18" fill="#F8FAFC" stroke="#E2E8F0"/>
+  <text x="950" y="410" class="metric-title">Specificity</text>
+  <text x="1255" y="437" text-anchor="end" class="metric-value">82.3%</text>
+  <text x="950" y="459" class="small">219 / 266 NonDemented retained</text>
+
+  <rect x="925" y="505" width="355" height="150" rx="18" fill="#FFF7ED" stroke="#FDBA74"/>
+  <text x="950" y="540" class="metric-title">Operating-point tradeoff</text>
+  <text x="950" y="573" class="note">The sensitivity-first threshold reduces</text>
+  <text x="950" y="600" class="note">false negatives to 9, while accepting</text>
+  <text x="950" y="627" class="note">47 false-positive screening flags.</text>
+
+  <text x="700" y="750" text-anchor="middle" class="small">Research screening performance only · confusion counts are derived from patient-level OOF predictions.</text>
+</svg>

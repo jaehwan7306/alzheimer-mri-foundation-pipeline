@@ -96,7 +96,7 @@ For this case, the representative slice has `P(Demented) = 0.945`, and the maxim
 The final stage converts model outputs into a structured representation and sends that representation to a local LLM.
 
 <p align="center">
-  <img src="assets/10_llm_report_generation_flow_v2.svg" alt="LLM report generation flow via LM Studio" width="850" />
+  <img src="assets/10_llm_report_generation_flow_v3.svg" alt="LLM report generation flow via LM Studio" width="850" />
 </p>
 
 The LLM is served locally through **LM Studio** and is used only as a **report-generation module**. It receives structured screening outputs rather than MRI images directly. The example below uses the **same OAS1_0199 case** shown in the visual evidence above.

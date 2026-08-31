@@ -12,9 +12,11 @@ A patient-level Alzheimer MRI screening pipeline combining **BiomedCLIP**, **SAM
 
 **Selected screening model:** frozen BiomedCLIP image encoder + lightweight adapter probe
 
+**Reported comparison metrics below are the mean across 5 patient-level folds.**
+
 | Sensitivity | Specificity | Macro F1 | AUROC | AUPRC |
 |---:|---:|---:|---:|---:|
-| **0.887** | 0.823 | **0.802** | **0.901** | 0.695 |
+| **0.888** | 0.823 | **0.802** | **0.901** | 0.695 |
 
 The operating threshold was chosen for a **sensitivity-first screening setting**, where reducing false negatives is prioritized over maximizing precision.
 
@@ -128,9 +130,11 @@ The underlying structured input for OAS1_0199 contains patient-level `P(Demented
 
 ## Final Model Performance
 
+The table below reports **mean performance across the 5 patient-level folds**.
+
 | Metric | Value |
 |---|---:|
-| Sensitivity | **0.887** |
+| Sensitivity | **0.888** |
 | Specificity | 0.823 |
 | Precision | 0.604 |
 | F1 | 0.718 |
@@ -138,9 +142,11 @@ The underlying structured input for OAS1_0199 contains patient-level `P(Demented
 | AUROC | **0.901** |
 | AUPRC | 0.695 |
 
+The supplementary confusion matrix is computed from **pooled out-of-fold (OOF) predictions across all 347 patients**. Because fold-level metrics are averaged with equal fold weight while pooled OOF metrics are computed once from all patient predictions, small numerical differences are expected. For example, mean 5-fold sensitivity is `0.8875` (reported as `0.888`), while pooled OOF sensitivity is `72 / 81 = 0.8889`.
+
 The moderate precision means some `NonDemented` patients can be flagged as `Demented`. This is acceptable only as a first-pass research screening signal and must not be interpreted as diagnosis.
 
-`results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact from recalculated patient-level OOF outputs. The README and comparison table use the rounded final reporting values above for consistency.
+`results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact for pooled patient-level OOF performance. The README model-comparison values use the 5-fold mean values from [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv).
 
 ## Limitations
 
@@ -263,7 +269,7 @@ These figures are retained as supporting material for deeper inspection rather t
 
 - Project decision flow: [`assets/02_project_decision_flow.svg`](assets/02_project_decision_flow.svg)
 - Dataset distribution and binary task redefinition: [`assets/03_dataset_patient_distribution.svg`](assets/03_dataset_patient_distribution.svg)
-- Adapter probe confusion matrix: [`assets/07_confusion_matrix_adapter.svg`](assets/07_confusion_matrix_adapter.svg)
+- Adapter probe pooled OOF confusion matrix: [`assets/07_confusion_matrix_adapter.svg`](assets/07_confusion_matrix_adapter.svg)
 - Detailed pipeline: [`assets/detailed_pipeline.png`](assets/detailed_pipeline.png)
 - Full SAM/Occlusion case panel: [`assets/sam_occlusion_all_cases.png`](assets/sam_occlusion_all_cases.png)
 

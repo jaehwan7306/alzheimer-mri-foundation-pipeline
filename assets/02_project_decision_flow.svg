@@ -25,20 +25,20 @@
   <rect x="85" y="145" width="365" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
   <text x="115" y="180" class="step">STEP 01</text>
   <text x="115" y="220" class="card-title">Foundation Model Goal</text>
-  <text x="115" y="260" class="body">Start from a biomedical</text>
-  <text x="115" y="287" class="body">foundation model rather than</text>
-  <text x="115" y="314" class="key">a task-specific CNN only.</text>
-  <rect x="115" y="318" width="128" height="28" rx="14" fill="#DBEAFE"/>
-  <text x="179" y="338" text-anchor="middle" class="key">BiomedCLIP</text>
+  <text x="115" y="255" class="body">Start from a biomedical</text>
+  <text x="115" y="280" class="body">foundation model rather than</text>
+  <text x="115" y="305" class="key">a task-specific CNN only.</text>
+  <rect x="115" y="320" width="128" height="24" rx="12" fill="#DBEAFE"/>
+  <text x="179" y="337" text-anchor="middle" class="key">BiomedCLIP</text>
 
   <rect x="518" y="145" width="365" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
   <text x="548" y="180" class="step">STEP 02</text>
   <text x="548" y="220" class="card-title">Cache Refactor</text>
-  <text x="548" y="260" class="body">Separate augmentation and</text>
-  <text x="548" y="287" class="body">sampling logic from deterministic</text>
-  <text x="548" y="314" class="body">feature caching.</text>
-  <rect x="548" y="318" width="218" height="28" rx="14" fill="#E2E8F0"/>
-  <text x="657" y="338" text-anchor="middle" class="body">deterministic feature cache</text>
+  <text x="548" y="255" class="body">Separate augmentation and</text>
+  <text x="548" y="280" class="body">sampling logic from deterministic</text>
+  <text x="548" y="305" class="body">feature caching.</text>
+  <rect x="548" y="320" width="228" height="24" rx="12" fill="#E2E8F0"/>
+  <text x="662" y="337" text-anchor="middle" class="body">deterministic feature cache</text>
 
   <rect x="951" y="145" width="365" height="205" rx="22" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
   <text x="981" y="180" class="step">STEP 03</text>

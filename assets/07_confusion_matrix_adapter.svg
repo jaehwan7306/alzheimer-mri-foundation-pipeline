@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
   <title id="title">Adapter Probe Confusion Matrix</title>
-  <desc id="desc">Patient-level OOF confusion matrix for the selected BiomedCLIP adapter probe: 219 true negatives, 47 false positives, 9 false negatives, and 72 true positives.</desc>
+  <desc id="desc">Pooled patient-level OOF confusion matrix for the selected BiomedCLIP adapter probe: 219 true negatives, 47 false positives, 9 false negatives, and 72 true positives.</desc>
   <defs>
     <style>
       .title { font: 700 38px Arial, sans-serif; fill: #1F2937; }
@@ -17,7 +17,7 @@
   </defs>
   <rect width="1400" height="800" fill="#FFFFFF"/>
   <text x="700" y="58" text-anchor="middle" class="title">Adapter Probe · Patient-Level Confusion Matrix</text>
-  <text x="700" y="92" text-anchor="middle" class="subtitle">Out-of-fold predictions across 347 patients at the selected screening operating point.</text>
+  <text x="700" y="92" text-anchor="middle" class="subtitle">Pooled out-of-fold predictions across all 347 patients at the selected screening operating point.</text>
 
   <rect x="80" y="140" width="760" height="560" rx="24" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
   <text x="460" y="185" text-anchor="middle" class="axis">Predicted class</text>
@@ -68,5 +68,5 @@
   <text x="950" y="600" class="note">false negatives to 9, while accepting</text>
   <text x="950" y="627" class="note">47 false-positive screening flags.</text>
 
-  <text x="700" y="750" text-anchor="middle" class="small">Research screening performance only · confusion counts are derived from patient-level OOF predictions.</text>
+  <text x="700" y="750" text-anchor="middle" class="small">Pooled OOF screening performance · each patient is predicted by a model that did not train on that patient.</text>
 </svg>

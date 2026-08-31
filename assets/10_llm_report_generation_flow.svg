@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="920" viewBox="0 0 1400 920" role="img" aria-labelledby="title desc">
+  <title id="title">LLM report generation flow via LM Studio</title>
+  <desc id="desc">Screening output and visual evidence are merged into structured screening output, then summarized by a local LLM served through LM Studio to produce a screening report.</desc>
+  <defs>
+    <style>
+      .title { font: 700 38px Arial, sans-serif; fill: #1F2937; }
+      .subtitle { font: 18px Arial, sans-serif; fill: #6B7280; }
+      .card-title { font: 700 24px Arial, sans-serif; fill: #1F2937; }
+      .label { font: 18px Arial, sans-serif; fill: #4B5563; }
+      .value { font: 700 18px Arial, sans-serif; fill: #111827; }
+      .value-red { font: 700 18px Arial, sans-serif; fill: #B91C1C; }
+      .value-amber { font: 700 18px Arial, sans-serif; fill: #B45309; }
+      .small { font: 16px Arial, sans-serif; fill: #6B7280; }
+      .pill { font: 700 16px Arial, sans-serif; fill: #1D4ED8; }
+      .warning { font: 700 15px Arial, sans-serif; fill: #991B1B; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748B"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="920" fill="#FFFFFF"/>
+  <text x="700" y="60" text-anchor="middle" class="title">LLM Report Generation Flow</text>
+  <text x="700" y="92" text-anchor="middle" class="subtitle">Model outputs are structured first, then summarized by a local LLM served through LM Studio.</text>
+
+  <rect x="90" y="135" width="520" height="215" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="350" y="178" text-anchor="middle" class="card-title">Screening Output</text>
+  <line x1="125" y1="195" x2="575" y2="195" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="135" y="235" class="label">Patient-level P(Demented)</text>
+  <text x="555" y="235" text-anchor="end" class="value">0.4215</text>
+  <text x="135" y="275" class="label">Threshold</text>
+  <text x="555" y="275" text-anchor="end" class="value">0.4000</text>
+  <text x="135" y="315" class="label">Prediction</text>
+  <text x="555" y="315" text-anchor="end" class="value-red">Abnormal suspicion</text>
+
+  <rect x="790" y="135" width="520" height="215" rx="22" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
+  <text x="1050" y="178" text-anchor="middle" class="card-title">Visual Evidence</text>
+  <line x1="825" y1="195" x2="1275" y2="195" stroke="#FED7AA" stroke-width="2"/>
+  <text x="835" y="235" class="label">Representative slice P(Demented)</text>
+  <text x="1255" y="235" text-anchor="end" class="value">0.945</text>
+  <text x="835" y="275" class="label">Occlusion max drop</text>
+  <text x="1255" y="275" text-anchor="end" class="value-amber">0.7735</text>
+  <text x="835" y="315" class="label">SAM</text>
+  <text x="1255" y="315" text-anchor="end" class="value">Foreground / context</text>
+
+  <path d="M350 350 L350 395 L635 395 L635 430" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1050 350 L1050 395 L765 395 L765 430" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="420" y="435" width="560" height="135" rx="22" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+  <text x="700" y="478" text-anchor="middle" class="card-title">Structured Screening Output</text>
+  <text x="700" y="512" text-anchor="middle" class="small">prediction + threshold + visual evidence metadata</text>
+  <rect x="530" y="528" width="340" height="32" rx="16" fill="#E2E8F0"/>
+  <text x="700" y="549" text-anchor="middle" class="small">machine-readable summary</text>
+
+  <line x1="700" y1="570" x2="700" y2="625" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="420" y="635" width="560" height="150" rx="24" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <text x="700" y="678" text-anchor="middle" class="card-title">Local LLM</text>
+  <rect x="585" y="695" width="230" height="36" rx="18" fill="#DBEAFE" stroke="#93C5FD"/>
+  <text x="700" y="719" text-anchor="middle" class="pill">served via LM Studio</text>
+  <text x="700" y="753" text-anchor="middle" class="small">Report generation only · structured outputs in, text report out</text>
+  <text x="700" y="774" text-anchor="middle" class="warning">No direct MRI image input to the LLM</text>
+
+  <line x1="700" y1="785" x2="700" y2="845" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="470" y="850" width="460" height="55" rx="20" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
+  <text x="700" y="882" text-anchor="middle" class="card-title">Screening Report</text>
+</svg>

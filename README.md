@@ -1,76 +1,247 @@
 # Alzheimer MRI Multi-Foundation Screening Pipeline
 
-This repository is a reproducible project archive for an Alzheimer MRI screening experiment built around foundation models.
+A patient-level Alzheimer MRI screening pipeline combining **BiomedCLIP**, **SAM + occlusion**, and a **local LLM** for prediction, visual context, and report generation.
 
-The project started from BiomedCLIP-based MRI classification, corrected feature caching and data leakage risks, redefined the task as patient-level binary screening, compared several adaptation strategies, and finally connected BiomedCLIP, SAM, occlusion sensitivity, and a local LLM into a multi-foundation pipeline.
+> Research prototype for screening experiments — **not a medical diagnostic system**.
 
-> This is a research screening pipeline, not a medical diagnostic system.
+<p align="center">
+  <img src="assets/01_pipeline_overview.svg" alt="Alzheimer MRI multi-foundation screening pipeline" width="900" />
+</p>
 
-![Final pipeline](assets/01_final_pipeline_diagram.png)
+## Key Results
 
-## Project Summary
+**Selected screening model:** frozen BiomedCLIP image encoder + lightweight adapter probe
 
-- **Task:** patient-level `NonDemented` vs `Demented` screening
-- **Positive class:** `VeryMildDemented + MildDemented + ModerateDemented`
-- **Main classifier:** frozen BiomedCLIP image encoder + adapter probe
-- **Explanation module:** SAM foreground mask + occlusion sensitivity
-- **Text module:** structured JSON output summarized by LM Studio local LLM
-- **Main reason for patient-level split:** prevent image-level slice leakage across train/test
+**Reported comparison metrics below are the mean across 5 patient-level folds.**
+
+| Sensitivity | Specificity | Macro F1 | AUROC | AUPRC |
+|---:|---:|---:|---:|---:|
+| **0.888** | 0.823 | **0.802** | **0.901** | 0.695 |
+
+The operating threshold was chosen for a **sensitivity-first screening setting**, where reducing false negatives is prioritized over maximizing precision.
+
+<p align="center">
+  <img src="assets/04_model_metric_comparison.png" alt="Model metric comparison" width="850" />
+</p>
+
+The BiomedCLIP adapter probe is the **final selected classifier**, chosen for sensitivity-first screening and parameter-efficient foundation-model adaptation. EfficientNet remains stronger on AUROC/AUPRC.
+
+Full comparison: [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv)
+
+## What This Project Does
+
+The pipeline separates **screening** from **visual context generation**, then combines both into a structured output that a local LLM converts into a report.
+
+- **BiomedCLIP screening:** frozen image encoder + adapter probe produces a patient-level risk score.
+- **SAM + occlusion:** provides brain-region context and model-derived visual evidence.
+- **Structured screening output:** combines prediction results and explanation metadata.
+- **Local LLM:** generates a final report from structured model outputs; it does **not** classify MRI images directly.
+
+## Dataset & Data Source
+
+This project uses the Kaggle dataset **[OASIS Alzheimer's Detection](https://www.kaggle.com/datasets/ninadaithal/imagesoasis)** by Ninad Aithal, which is a processed 2D image derivative of the **OASIS-1 Cross-Sectional MRI dataset**.
+
+The original OASIS-1 dataset is maintained by the Open Access Series of Imaging Studies (OASIS). The Kaggle distribution converts the source MRI data into 2D image slices and provides four dementia-related folders that are used as the starting labels for this project.
+
+- **Processed dataset used in this project:** [OASIS Alzheimer's Detection — Kaggle](https://www.kaggle.com/datasets/ninadaithal/imagesoasis)
+- **Original source dataset:** [OASIS-1 Cross-Sectional MRI Data](https://www.oasis-brains.org/)
+- **Original OASIS-1 publication:** Marcus et al., *Journal of Cognitive Neuroscience*, 2007. DOI: [10.1162/jocn.2007.19.9.1498](https://doi.org/10.1162/jocn.2007.19.9.1498)
+
+For this project, patient identifiers were reconstructed from the image filenames before model evaluation. This resulted in **347 unique patients** in the working dataset. All train/test splits were then performed at the **patient level**, so slices from the same patient could not appear in both training and evaluation sets.
+
+The original four folders were later grouped into the binary Stage 1 screening task used throughout the final pipeline:
+
+- `NonDemented`
+- `Demented = VeryMildDemented + MildDemented + ModerateDemented`
+
+Raw medical images are **not included in this repository**. Users who want to reproduce the project should obtain the dataset from the original distribution source and configure `dataset_dir` locally.
+
+## Key Research Decisions
+
+### 1. Preventing slice leakage
+
+The original image-level split was replaced with a **patient-level split**. Multiple MRI slices from the same patient must not appear across both train and test sets, because this can leak patient-specific information and overestimate performance.
+
+### 2. Redefining the task
+
+The initial 4-class severity classification task was changed to **binary screening**:
+
+- `NonDemented`
+- `Demented = VeryMildDemented + MildDemented + ModerateDemented`
+
+`ModerateDemented` contained too few patients for stable 4-class evaluation.
+
+### 3. Moving beyond zero-shot prediction
+
+Zero-shot BiomedCLIP performed poorly on this task:
+
+| Metric | Zero-shot |
+|---|---:|
+| Sensitivity | 0.223 |
+| AUROC | 0.486 |
+| AUPRC | 0.268 |
+
+MRI differences associated with dementia are subtle, and prompt-image similarity alone did not provide an adequate dataset-specific decision boundary. This motivated probe-based adaptation.
+
+### 4. Selecting the adapter probe
+
+The adapter probe was selected because it best matched the project goal of **parameter-efficient foundation-model adaptation for sensitivity-first screening**.
+
+- It substantially improved over zero-shot BiomedCLIP.
+- It adds a small nonlinear task-specific adaptation layer while keeping the BiomedCLIP encoder frozen.
+- It was more stable than internal LoRA fine-tuning on the small dataset.
+- It achieved higher sensitivity than the CNN baseline, although the CNN remained stronger on some ranking metrics.
+
+> The conclusion is **not** that the foundation model beats CNNs in every metric. The EfficientNet baseline remains a strong supervised baseline, especially for AUROC/AUPRC.
+
+### 5. Keeping explanation separate from diagnosis
+
+SAM foreground masks and occlusion heatmaps are used only as **model-side visual context**.
+
+- SAM output is **not** Alzheimer lesion segmentation.
+- Occlusion maps are **not** clinical regions of interest.
+- Neither should be interpreted as medical diagnosis.
+
+## Representative Visual Evidence
+
+The representative explanation is intentionally kept to a single case, **OAS1_0199**, so the visual evidence and the downstream LLM report refer to the same patient.
+
+<p align="center">
+  <img src="assets/09_OAS1_0199_visual_evidence.png" alt="OAS1_0199 SAM and occlusion visual evidence" width="900" />
+</p>
+
+For this case, the representative slice has `P(Demented) = 0.945`, and the maximum confidence drop under occlusion is `0.7735`. SAM is used only for brain foreground/context, while the occlusion map shows model-sensitive regions rather than clinical ROIs.
+
+## Report Generation
+
+The final stage converts model outputs into a structured representation and sends that representation to a local LLM.
+
+<p align="center">
+  <img src="assets/10_llm_report_generation_flow.svg" alt="LLM report generation flow via LM Studio" width="850" />
+</p>
+
+The LLM is served locally through **LM Studio** and is used only as a **report-generation module**. It receives structured screening outputs rather than MRI images directly. The example below uses the **same OAS1_0199 case** shown in the visual evidence above.
+
+<p align="center">
+  <img src="assets/11_OAS1_0199_screening_report.svg" alt="OAS1_0199 example generated screening report" width="850" />
+</p>
+
+The underlying structured input for OAS1_0199 contains patient-level `P(Demented) = 0.4215`, threshold `0.4000`, representative-slice `P(Demented) = 0.945`, and occlusion max confidence drop `0.7735`. The full generated report is retained in [`reports/llm_reports/OAS1_0199_llm_report.md`](reports/llm_reports/OAS1_0199_llm_report.md).
 
 ## Final Model Performance
 
-Final selected model: **BiomedCLIP adapter probe**.
-
-The selected threshold was interpreted for a screening setting, where reducing false negatives is more important than maximizing precision.
+The table below reports **mean performance across the 5 patient-level folds**.
 
 | Metric | Value |
 |---|---:|
-| Sensitivity | 0.887 |
+| Sensitivity | **0.888** |
 | Specificity | 0.823 |
 | Precision | 0.604 |
 | F1 | 0.718 |
-| Macro F1 | 0.802 |
-| AUROC | 0.901 |
+| Macro F1 | **0.802** |
+| AUROC | **0.901** |
 | AUPRC | 0.695 |
 
-Full comparison is available in [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv).
+The supplementary confusion matrix is computed from **pooled out-of-fold (OOF) predictions across all 347 patients**. Because fold-level metrics are averaged with equal fold weight while pooled OOF metrics are computed once from all patient predictions, small numerical differences are expected. For example, mean 5-fold sensitivity is `0.8875` (reported as `0.888`), while pooled OOF sensitivity is `72 / 81 = 0.8889`.
 
-`results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact from recalculated patient-level OOF outputs. The README and comparison table use the rounded final reporting values above so that the repository summary and model-selection discussion remain consistent.
+The moderate precision means some `NonDemented` patients can be flagged as `Demented`. This is acceptable only as a first-pass research screening signal and must not be interpreted as diagnosis.
 
-## Result Interpretation
+`results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact for pooled patient-level OOF performance. The README model-comparison values use the 5-fold mean values from [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv).
 
-### Why Zero-Shot Was Weak
+## Limitations
 
-Zero-shot BiomedCLIP uses prompt-image similarity without dataset-specific decision-boundary learning. In this MRI task, Alzheimer-related differences are subtle and class imbalance is strong, so prompt similarity alone produced low sensitivity and weak AUROC/AUPRC.
+- The project uses **2D slices**, not full 3D MRI volumes.
+- The dataset is **small and imbalanced**.
+- Binary screening is more stable than 4-class severity classification, but less clinically granular.
+- The sensitivity-first operating point increases false positives.
+- The CNN baseline remains stronger in some ranking metrics such as AUROC/AUPRC.
+- SAM is a general segmentation foundation model and should not be interpreted as Alzheimer-specific lesion segmentation.
+- The local LLM only summarizes structured model outputs.
 
-Zero-shot baseline summary:
+## Quick Start
 
-- Zero-shot AUROC: 0.486
-- Zero-shot AUPRC: 0.268
-- Zero-shot sensitivity: 0.223
+```powershell
+conda env create -f environment.yml
+conda activate alzheimer-repro
+```
 
-### Why Probe-Based Adaptation Was Needed
+or
 
-Linear and adapter probes keep the BiomedCLIP image encoder frozen but learn a dataset-specific classifier on top of the extracted features. This corrected the main zero-shot limitation: the model needed a task-specific boundary between `NonDemented` and `Demented` patients.
+```powershell
+pip install -r requirements.txt
+```
 
-### Why Adapter Probe Was Selected
+Copy the configuration file:
 
-The adapter probe was selected because it matched the project objective: parameter-efficient foundation-model adaptation for a sensitivity-first screening task.
+```powershell
+copy config.example.json config.local.json
+```
 
-- Compared with zero-shot, it greatly improved sensitivity, F1, AUROC, and AUPRC.
-- Compared with a linear probe, it added a small nonlinear adaptation layer and improved the screening-oriented balance.
-- Compared with LoRA/internal fine-tuning, it was more stable on the small dataset.
-- Compared with the CNN baseline, it did not win every metric, but it better matched the foundation-model adaptation objective and achieved higher sensitivity.
+Then set `dataset_dir` in `config.local.json` to your local dataset path.
 
-Important caveat: the EfficientNet CNN baseline had higher AUROC/AUPRC in the comparison table. Therefore, the correct conclusion is not "foundation model beats CNN in every metric." The correct conclusion is:
+<details>
+<summary><strong>Dataset layout</strong></summary>
 
-> BiomedCLIP adapter probe was selected because it best matched the foundation-model project goal and sensitivity-first screening objective, while CNN remained a strong supervised baseline for ranking metrics.
+```text
+alzheimer_dataset/
+  NonDemented/
+  VeryMildDemented/
+  MildDemented/
+  ModerateDemented/
+```
 
-### Precision and False Positives
+Each class folder should contain 2D MRI slice images such as `.jpg`, `.png`, or `.bmp`.
 
-The final adapter probe has moderate precision. This means some `NonDemented` patients can be flagged as `Demented`. For screening, this is acceptable only as a first-pass warning signal; it must not be interpreted as diagnosis.
+</details>
 
-## Repository Structure
+<details>
+<summary><strong>Reproduction steps</strong></summary>
+
+### Level 0 — Inspect saved results
+
+```powershell
+python scripts\00_check_environment.py --config config.local.json
+python scripts\04_evaluate_saved_results.py --config config.local.json
+```
+
+### Level 1 — Rebuild dataset manifest
+
+```powershell
+python scripts\01_build_manifest.py --config config.local.json
+```
+
+### Level 2 — Recompute BiomedCLIP feature cache
+
+```powershell
+python scripts\02_extract_biomedclip_features.py --config config.local.json
+```
+
+Feature caching intentionally uses:
+
+- no augmentation
+- no sampler
+- `shuffle=False`
+
+This keeps the feature cache deterministic.
+
+### Level 3 — Retrain adapter probe
+
+```powershell
+python scripts\03_train_adapter_probe.py --config config.local.json
+```
+
+### Level 4 — Regenerate LLM reports
+
+Start the LM Studio local server, load the configured model, then run:
+
+```powershell
+python scripts\05_generate_llm_reports.py --config config.local.json
+```
+
+</details>
+
+<details>
+<summary><strong>Repository structure</strong></summary>
 
 ```text
 .
@@ -86,135 +257,23 @@ The final adapter probe has moderate precision. This means some `NonDemented` pa
 |-- results/                    # saved CSV/JSON results
 |-- checkpoints/                # adapter probe checkpoints
 |-- reports/                    # LLM prompts and generated reports
-|-- assets/                     # figures for README/PPT
+|-- assets/                     # project visualizations
 |-- outputs/                    # generated outputs, cache, temporary files
 ```
 
-## Quick Start
+</details>
 
-Create an environment:
+## Supplementary Visualizations
 
-```powershell
-conda env create -f environment.yml
-conda activate alzheimer-repro
-```
+These figures are retained as supporting material for deeper inspection rather than being inserted into every section of the main README.
 
-or install with pip:
+- Project decision flow: [`assets/02_project_decision_flow.svg`](assets/02_project_decision_flow.svg)
+- Dataset distribution and binary task redefinition: [`assets/03_dataset_patient_distribution.svg`](assets/03_dataset_patient_distribution.svg)
+- Adapter probe pooled OOF confusion matrix: [`assets/07_confusion_matrix_adapter.svg`](assets/07_confusion_matrix_adapter.svg)
+- Detailed pipeline: [`assets/detailed_pipeline.png`](assets/detailed_pipeline.png)
+- Full SAM/Occlusion case panel: [`assets/sam_occlusion_all_cases.png`](assets/sam_occlusion_all_cases.png)
 
-```powershell
-pip install -r requirements.txt
-```
-
-Copy and edit the config:
-
-```powershell
-copy config.example.json config.local.json
-```
-
-Set `dataset_dir` in `config.local.json` to your local dataset path.
-
-## Dataset Layout
-
-The dataset folder should look like this:
-
-```text
-alzheimer_dataset/
-  NonDemented/
-  VeryMildDemented/
-  MildDemented/
-  ModerateDemented/
-```
-
-Each class folder should contain 2D MRI slice images such as `.jpg`, `.png`, or `.bmp`.
-
-## Reproduction Levels
-
-### Level 0. Inspect Saved Results
-
-This checks the stored results without rerunning model training.
-
-```powershell
-python scripts\00_check_environment.py --config config.local.json
-python scripts\04_evaluate_saved_results.py --config config.local.json
-```
-
-### Level 1. Rebuild Dataset Manifest
-
-```powershell
-python scripts\01_build_manifest.py --config config.local.json
-```
-
-### Level 2. Recompute BiomedCLIP Feature Cache
-
-This can take time and requires GPU for practical speed.
-
-```powershell
-python scripts\02_extract_biomedclip_features.py --config config.local.json
-```
-
-Feature caching intentionally uses:
-
-- no augmentation
-- no sampler
-- `shuffle=False`
-
-This keeps the feature cache deterministic.
-
-### Level 3. Retrain Adapter Probe
-
-```powershell
-python scripts\03_train_adapter_probe.py --config config.local.json
-```
-
-### Level 4. Regenerate LLM Reports
-
-Start LM Studio local server first, load the configured model, then run:
-
-```powershell
-python scripts\05_generate_llm_reports.py --config config.local.json
-```
-
-## Key Design Decisions
-
-1. **Feature cache was separated from training loader.**  
-   WeightedRandomSampler and augmentation belong to training, not deterministic feature extraction.
-
-2. **Image-level split was replaced by patient-level split.**  
-   MRI datasets often contain multiple slices from the same patient. Image-level splitting can leak patient identity into both train and test.
-
-3. **The task was redefined from 4-class to Stage 1 binary screening.**  
-   `ModerateDemented` had too few patients for stable 4-class evaluation.
-
-4. **BiomedCLIP adapter probe was selected as the final foundation-model classifier.**  
-   The selection was based on sensitivity-first screening and parameter-efficient foundation-model adaptation, not on claiming dominance over CNN in every metric.
-
-5. **SAM and occlusion were used for explanation, not diagnosis.**  
-   SAM foreground is not lesion segmentation. Occlusion heatmap is model-derived importance, not clinical ROI.
-
-6. **LLM summarizes structured model output.**  
-   The local LLM does not classify MRI images directly and does not diagnose.
-
-## Main Figures
-
-- Pipeline: [`assets/01_final_pipeline_diagram.png`](assets/01_final_pipeline_diagram.png)
-- Decision flow: [`assets/02_project_decision_flow.png`](assets/02_project_decision_flow.png)
-- Dataset distribution: [`assets/03_dataset_patient_distribution.png`](assets/03_dataset_patient_distribution.png)
-- Model comparison: [`assets/04_model_metric_comparison.png`](assets/04_model_metric_comparison.png)
-- SAM/Occlusion cases: [`assets/09_sam_occlusion_representative_cases.png`](assets/09_sam_occlusion_representative_cases.png)
-
-## Limitations
-
-- This project uses 2D slices, not full 3D MRI volumes.
-- The dataset is small and imbalanced.
-- Stage 1 binary screening is more stable than 4-class severity classification, but it is less clinically granular.
-- The final model prioritizes sensitivity, so false positives remain a limitation.
-- CNN baseline remains stronger in some ranking metrics such as AUROC/AUPRC.
-- SAM is a general segmentation foundation model and should not be interpreted as Alzheimer lesion segmentation.
-- LLM output is only a report-style summary of model outputs.
-
-## Suggested GitHub Usage
-
-If pushing this repository to GitHub:
+## Repository Notes
 
 - Do not commit raw medical image data.
 - Do not commit large feature cache files under `outputs/cache/`.

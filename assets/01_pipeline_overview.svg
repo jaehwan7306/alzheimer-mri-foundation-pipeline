@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="930" viewBox="0 0 1200 930">
+  <defs>
+    <style>
+      .title { font: 700 30px Arial, sans-serif; fill: #0f172a; }
+      .head { font: 700 24px Arial, sans-serif; fill: #0f172a; }
+      .sub { font: 500 18px Arial, sans-serif; fill: #334155; }
+      .small { font: 600 16px Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <marker id="arrowhead" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
+      <polygon points="0 0, 11 4, 0 8" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="930" fill="#ffffff"/>
+
+  <text x="600" y="52" text-anchor="middle" class="title">Alzheimer MRI Multi-Foundation Screening Pipeline</text>
+
+  <rect x="420" y="88" width="360" height="92" rx="18" fill="#e2e8f0" stroke="#64748b" stroke-width="2.5"/>
+  <text x="600" y="126" text-anchor="middle" class="head">Alzheimer MRI</text>
+  <text x="600" y="157" text-anchor="middle" class="sub">Patient MRI slices</text>
+
+  <path d="M600 180 L600 222 L300 222 L300 258" class="arrow" marker-end="url(#arrowhead)"/>
+  <path d="M600 222 L900 222 L900 258" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <rect x="105" y="265" width="390" height="150" rx="20" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <text x="300" y="310" text-anchor="middle" class="head">BiomedCLIP</text>
+  <text x="300" y="344" text-anchor="middle" class="sub">Screening</text>
+  <line x1="180" y1="362" x2="420" y2="362" stroke="#93c5fd" stroke-width="2"/>
+  <text x="300" y="393" text-anchor="middle" class="small">Risk Score</text>
+
+  <rect x="705" y="265" width="390" height="150" rx="20" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
+  <text x="900" y="310" text-anchor="middle" class="head">SAM + Occlusion</text>
+  <text x="900" y="344" text-anchor="middle" class="sub">Brain Region Context</text>
+  <line x1="780" y1="362" x2="1020" y2="362" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="900" y="393" text-anchor="middle" class="small">Visual Evidence</text>
+
+  <path d="M300 415 L300 470 L600 470" class="arrow"/>
+  <path d="M900 415 L900 470 L600 470" class="arrow"/>
+  <path d="M600 470 L600 520" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <rect x="365" y="528" width="470" height="105" rx="20" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+  <text x="600" y="570" text-anchor="middle" class="head">Structured Screening Output</text>
+  <text x="600" y="603" text-anchor="middle" class="sub">Prediction + brain-region evidence</text>
+
+  <path d="M600 633 L600 690" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <rect x="365" y="698" width="470" height="112" rx="20" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="742" text-anchor="middle" class="head">Local LLM</text>
+  <text x="600" y="780" text-anchor="middle" class="sub">Report Generation</text>
+
+  <path d="M600 810 L600 856" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <rect x="365" y="862" width="470" height="58" rx="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3"/>
+  <text x="600" y="899" text-anchor="middle" class="head">Final Screening Report</text>
+</svg>

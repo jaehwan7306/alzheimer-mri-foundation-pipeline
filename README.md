@@ -38,7 +38,7 @@ The pipeline separates **screening** from **visual context generation**, then co
 ## Key Research Decisions
 
 <p align="center">
-  <img src="assets/02_project_decision_flow.svg" alt="Project decision flow" width="900" />
+  <img src="assets/02_project_decision_flow_v2.svg" alt="Project decision flow" width="900" />
 </p>
 
 ### 1. Preventing slice leakage
@@ -245,7 +245,7 @@ python scripts\05_generate_llm_reports.py --config config.local.json
 ## Additional Figures
 
 - Detailed original pipeline: [`assets/01_final_pipeline_diagram.png`](assets/01_final_pipeline_diagram.png)
-- Project decision flow: [`assets/02_project_decision_flow.svg`](assets/02_project_decision_flow.svg)
+- Project decision flow: [`assets/02_project_decision_flow_v2.svg`](assets/02_project_decision_flow_v2.svg)
 - Dataset distribution: [`assets/03_dataset_patient_distribution.png`](assets/03_dataset_patient_distribution.png)
 - Model comparison: [`assets/04_model_metric_comparison.png`](assets/04_model_metric_comparison.png)
 - Final model scorecard: [`assets/06_final_model_scorecard.png`](assets/06_final_model_scorecard.png)

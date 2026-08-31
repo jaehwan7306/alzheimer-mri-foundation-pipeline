@@ -102,7 +102,7 @@ The final stage converts model outputs into a structured representation and send
 The LLM is therefore a **report-generation module**, not an MRI classifier. The example below uses the **same OAS1_0199 case** shown in the visual evidence above.
 
 <p align="center">
-  <img src="assets/11_OAS1_0199_screening_report.svg" alt="OAS1_0199 example generated screening report" width="850" />
+  <img src="assets/11_OAS1_0199_screening_report_v2.svg" alt="OAS1_0199 example generated screening report" width="850" />
 </p>
 
 The underlying structured input for OAS1_0199 contains patient-level `P(Demented) = 0.4215`, threshold `0.4000`, representative-slice `P(Demented) = 0.945`, and occlusion max confidence drop `0.7735`. The full generated report is retained in [`reports/llm_reports/OAS1_0199_llm_report.md`](reports/llm_reports/OAS1_0199_llm_report.md).

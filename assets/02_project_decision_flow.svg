@@ -1,82 +1,91 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="880" viewBox="0 0 1400 880" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1040" viewBox="0 0 1400 1040" role="img" aria-labelledby="title desc">
   <title id="title">Project Decision Flow</title>
-  <desc id="desc">Six project decisions from the BiomedCLIP foundation-model goal through cache refactoring, patient-level splitting, task redefinition, adaptation experiments, and the final multi-foundation pipeline.</desc>
+  <desc id="desc">Seven research decisions from reliable patient-level evaluation through binary screening, sensitivity-first model selection, lightweight foundation-model adaptation, a deferred internal-adapter validation, and the final multi-foundation pipeline.</desc>
   <defs>
     <style>
       .title { font: 700 38px Arial, sans-serif; fill: #1F2937; }
       .subtitle { font: 18px Arial, sans-serif; fill: #6B7280; }
-      .step { font: 700 15px Arial, sans-serif; fill: #64748B; letter-spacing: 1px; }
-      .card-title { font: 700 23px Arial, sans-serif; fill: #1F2937; }
-      .body { font: 17px Arial, sans-serif; fill: #4B5563; }
-      .key { font: 700 17px Arial, sans-serif; fill: #1D4ED8; }
-      .final { font: 700 17px Arial, sans-serif; fill: #047857; }
+      .step { font: 700 14px Arial, sans-serif; fill: #64748B; letter-spacing: 1px; }
+      .card-title { font: 700 22px Arial, sans-serif; fill: #1F2937; }
+      .body { font: 16px Arial, sans-serif; fill: #4B5563; }
+      .key { font: 700 16px Arial, sans-serif; fill: #1D4ED8; }
+      .warn { font: 700 16px Arial, sans-serif; fill: #B45309; }
+      .final { font: 700 16px Arial, sans-serif; fill: #047857; }
       .principle-title { font: 700 18px Arial, sans-serif; fill: #374151; }
-      .principle { font: 17px Arial, sans-serif; fill: #4B5563; }
+      .principle { font: 16px Arial, sans-serif; fill: #4B5563; }
     </style>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#64748B"/>
     </marker>
   </defs>
 
-  <rect width="1400" height="880" fill="#FFFFFF"/>
+  <rect width="1400" height="1040" fill="#FFFFFF"/>
   <text x="700" y="58" text-anchor="middle" class="title">Project Decision Flow</text>
-  <text x="700" y="91" text-anchor="middle" class="subtitle">The project was stabilized around evaluation reliability before expanding model complexity.</text>
+  <text x="700" y="91" text-anchor="middle" class="subtitle">The final pipeline reflects evaluation reliability, screening goals, project scope, and limited experiment time.</text>
 
-  <rect x="85" y="145" width="365" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
-  <text x="115" y="180" class="step">STEP 01</text>
-  <text x="115" y="220" class="card-title">Foundation Model Goal</text>
-  <text x="115" y="255" class="body">Start from a biomedical</text>
-  <text x="115" y="280" class="body">foundation model rather than</text>
-  <text x="115" y="305" class="key">a task-specific CNN only.</text>
-  <rect x="115" y="320" width="128" height="24" rx="12" fill="#DBEAFE"/>
-  <text x="179" y="337" text-anchor="middle" class="key">BiomedCLIP</text>
+  <!-- Row 1 -->
+  <rect x="70" y="135" width="380" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="100" y="170" class="step">STEP 01</text>
+  <text x="100" y="208" class="card-title">Foundation-Model Starting Point</text>
+  <text x="100" y="245" class="body">Use BiomedCLIP as a pretrained</text>
+  <text x="100" y="271" class="body">biomedical representation rather than</text>
+  <text x="100" y="297" class="key">building only a task-specific CNN.</text>
 
-  <rect x="518" y="145" width="365" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
-  <text x="548" y="180" class="step">STEP 02</text>
-  <text x="548" y="220" class="card-title">Cache Refactor</text>
-  <text x="548" y="255" class="body">Separate augmentation and</text>
-  <text x="548" y="280" class="body">sampling logic from deterministic</text>
-  <text x="548" y="305" class="body">feature caching.</text>
-  <rect x="548" y="320" width="228" height="24" rx="12" fill="#E2E8F0"/>
-  <text x="662" y="337" text-anchor="middle" class="body">deterministic feature cache</text>
+  <rect x="510" y="135" width="380" height="205" rx="22" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <text x="540" y="170" class="step">STEP 02</text>
+  <text x="540" y="208" class="card-title">Fix Evaluation Reliability</text>
+  <text x="540" y="245" class="body">Image-level splitting can place slices</text>
+  <text x="540" y="271" class="body">from the same patient in train and test.</text>
+  <text x="540" y="303" class="key">→ switch to patient-level evaluation</text>
 
-  <rect x="951" y="145" width="365" height="205" rx="22" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
-  <text x="981" y="180" class="step">STEP 03</text>
-  <text x="981" y="220" class="card-title">Patient-Level Split</text>
-  <text x="981" y="260" class="body">Replace image-level splitting</text>
-  <text x="981" y="287" class="body">so slices from one patient cannot</text>
-  <text x="981" y="314" class="key">leak across train and test.</text>
+  <rect x="950" y="135" width="380" height="205" rx="22" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
+  <text x="980" y="170" class="step">STEP 03</text>
+  <text x="980" y="208" class="card-title">Redefine the Research Task</text>
+  <text x="980" y="245" class="body">Severity grading was deprioritized:</text>
+  <text x="980" y="271" class="body">the project focuses on early screening.</text>
+  <text x="980" y="303" class="key">→ NonDemented vs Demented</text>
 
-  <line x1="450" y1="247" x2="510" y2="247" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
-  <line x1="883" y1="247" x2="943" y2="247" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="450" y1="238" x2="502" y2="238" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="890" y1="238" x2="942" y2="238" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
 
-  <rect x="951" y="440" width="365" height="205" rx="22" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
-  <text x="981" y="475" class="step">STEP 04</text>
-  <text x="981" y="515" class="card-title">Task Redefinition</text>
-  <text x="981" y="555" class="body">Move from unstable four-class</text>
-  <text x="981" y="582" class="body">severity prediction to a binary</text>
-  <text x="981" y="609" class="key">NonDemented vs Demented task.</text>
+  <!-- Row 2 -->
+  <rect x="950" y="420" width="380" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="980" y="455" class="step">STEP 04</text>
+  <text x="980" y="493" class="card-title">Sensitivity-First Screening</text>
+  <text x="980" y="530" class="body">Choose thresholds on validation patients</text>
+  <text x="980" y="556" class="body">with missed positives as the main concern.</text>
+  <text x="980" y="588" class="key">→ prioritize sensitivity over accuracy</text>
 
-  <rect x="518" y="440" width="365" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
-  <text x="548" y="475" class="step">STEP 05</text>
-  <text x="548" y="515" class="card-title">Adaptation Experiments</text>
-  <text x="548" y="555" class="body">Compare zero-shot, linear probe,</text>
-  <text x="548" y="582" class="body">adapter, LoRA, and CNN baselines</text>
-  <text x="548" y="609" class="body">under the same patient-level task.</text>
+  <rect x="510" y="420" width="380" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="540" y="455" class="step">STEP 05</text>
+  <text x="540" y="493" class="card-title">Keep Adaptation Lightweight</text>
+  <text x="540" y="530" class="body">Zero-shot → linear probe → adapter probe,</text>
+  <text x="540" y="556" class="body">then LoRA / internal-adapter pilots.</text>
+  <text x="540" y="588" class="key">→ preserve pretrained representation</text>
 
-  <rect x="85" y="440" width="365" height="205" rx="22" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
-  <text x="115" y="475" class="step">STEP 06</text>
-  <text x="115" y="515" class="card-title">Final Pipeline</text>
-  <text x="115" y="555" class="body">Combine screening, visual context,</text>
-  <text x="115" y="582" class="body">and structured report generation.</text>
-  <text x="115" y="617" class="final">BiomedCLIP + SAM + Occlusion + LLM</text>
+  <rect x="70" y="420" width="380" height="205" rx="22" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
+  <text x="100" y="455" class="step">STEP 06</text>
+  <text x="100" y="493" class="card-title">Scope Cut, Not Negative Result</text>
+  <text x="100" y="530" class="body">Internal Adapter Fold 1 was promising,</text>
+  <text x="100" y="556" class="body">but 5-fold validation was not completed.</text>
+  <text x="100" y="588" class="warn">→ deferred because of project time</text>
 
-  <path d="M1133 350 L1133 432" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
-  <line x1="951" y1="542" x2="891" y2="542" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
-  <line x1="518" y1="542" x2="458" y2="542" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1140 340 L1140 412" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="950" y1="523" x2="898" y2="523" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="510" y1="523" x2="458" y2="523" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
 
-  <rect x="180" y="755" width="1040" height="72" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-  <text x="215" y="787" class="principle-title">Key principle</text>
-  <text x="350" y="787" class="principle">Establish trustworthy evaluation and a stable adaptation setup before optimizing headline performance.</text>
-  <text x="350" y="811" class="principle">Patient-level evaluation reliability was treated as a prerequisite, not a post-hoc fix.</text>
+  <!-- Final row -->
+  <rect x="390" y="705" width="620" height="190" rx="24" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
+  <text x="425" y="742" class="step">STEP 07</text>
+  <text x="425" y="782" class="card-title">Prioritize the Multi-Foundation System</text>
+  <text x="425" y="820" class="body">Use the fully evaluated adapter probe as the practical classifier,</text>
+  <text x="425" y="847" class="body">then spend remaining effort on complementary model integration.</text>
+  <text x="425" y="878" class="final">BiomedCLIP + SAM + Occlusion + Local LLM</text>
+
+  <path d="M260 625 L260 655 L700 655 L700 697" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="145" y="940" width="1110" height="70" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="180" y="970" class="principle-title">Decision principle</text>
+  <text x="345" y="970" class="principle">Trustworthy patient-level evaluation first; then choose a sufficiently strong, efficient classifier.</text>
+  <text x="345" y="994" class="principle">Further classifier optimization was secondary to completing the multi-foundation screening pipeline.</text>
 </svg>

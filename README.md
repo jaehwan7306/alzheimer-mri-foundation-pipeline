@@ -26,14 +26,6 @@ A post-project follow-up completed the previously deferred **Internal Adapter 5-
 
 Full comparison: [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv)
 
-Internal Adapter follow-up artifacts:
-
-- [`results/internal_adapter_5fold_results.csv`](results/internal_adapter_5fold_results.csv)
-- [`results/internal_adapter_5fold_summary.csv`](results/internal_adapter_5fold_summary.csv)
-- [`results/internal_adapter_5fold_oof_predictions.csv`](results/internal_adapter_5fold_oof_predictions.csv)
-- [`results/internal_adapter_5fold_oof_metrics.json`](results/internal_adapter_5fold_oof_metrics.json)
-- [`results/internal_adapter_5fold_vs_adapter_probe.csv`](results/internal_adapter_5fold_vs_adapter_probe.csv)
-
 ## What This Project Does
 
 The pipeline separates **screening** from **visual context generation**, then combines both into a structured output that a local LLM converts into a report.
@@ -174,8 +166,6 @@ The supplementary confusion matrix is computed from **pooled out-of-fold (OOF) p
 The moderate precision means some `NonDemented` patients can be flagged as `Demented`. This is acceptable only as a first-pass research screening signal and must not be interpreted as diagnosis.
 
 `results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact for pooled patient-level OOF performance. The README model-comparison values use the 5-fold mean values from [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv).
-
-For the Internal Adapter follow-up, pooled OOF evaluation across the same 347 patients produced sensitivity `0.8148`, specificity `0.8233`, Macro F1 `0.7782`, AUROC `0.8975`, and AUPRC `0.6397`. These pooled OOF values are kept separate from the equal-weight 5-fold mean comparison.
 
 ## Limitations
 

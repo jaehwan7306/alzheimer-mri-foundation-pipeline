@@ -58,18 +58,20 @@ Raw medical images are **not included in this repository**. Users who want to re
 
 ## Key Research Decisions
 
+A detailed record of the version-by-version rationale, scope changes, and deferred experiments is available in [`docs/research_decision_log.md`](docs/research_decision_log.md).
+
 ### 1. Preventing slice leakage
 
 The original image-level split was replaced with a **patient-level split**. Multiple MRI slices from the same patient must not appear across both train and test sets, because this can leak patient-specific information and overestimate performance.
 
 ### 2. Redefining the task
 
-The initial 4-class severity classification task was changed to **binary screening**:
+The project intentionally moved away from severity-oriented multi-class prediction and focused on **binary screening**:
 
 - `NonDemented`
 - `Demented = VeryMildDemented + MildDemented + ModerateDemented`
 
-`ModerateDemented` contained too few patients for stable 4-class evaluation.
+The main reason was the research objective: Alzheimer-related screening and early detection were treated as more important than grading disease severity within this project. The very small `ModerateDemented` patient count also made stable multi-class evaluation less attractive.
 
 ### 3. Moving beyond zero-shot prediction
 
@@ -85,12 +87,17 @@ MRI differences associated with dementia are subtle, and prompt-image similarity
 
 ### 4. Selecting the adapter probe
 
-The adapter probe was selected because it best matched the project goal of **parameter-efficient foundation-model adaptation for sensitivity-first screening**.
+The adapter probe was selected as the **practical final classifier** because it best matched the project goal of parameter-efficient foundation-model adaptation for sensitivity-first screening while leaving enough project scope for multi-foundation integration.
 
 - It substantially improved over zero-shot BiomedCLIP.
 - It adds a small nonlinear task-specific adaptation layer while keeping the BiomedCLIP encoder frozen.
-- It was more stable than internal LoRA fine-tuning on the small dataset.
+- It was fully evaluated across all 5 patient-level folds.
+- It performed strongly relative to the fully evaluated LoRA experiment.
 - It achieved higher sensitivity than the CNN baseline, although the CNN remained stronger on some ranking metrics.
+
+The **Internal Adapter** produced a promising Fold-1 result (`Sensitivity = 0.9375`, `AUROC = 0.9016`), but full 5-fold validation was not completed because of project time constraints. It is therefore treated as a **deferred experiment, not a negative result**, and should not be directly compared with models evaluated across five folds.
+
+The decision to stop deeper classifier-specific optimization was also a scope choice: the project aimed to preserve pretrained foundation-model representations with lightweight adaptation and then combine complementary foundation-model components, rather than exhaustively fine-tune one classifier.
 
 > The conclusion is **not** that the foundation model beats CNNs in every metric. The EfficientNet baseline remains a strong supervised baseline, especially for AUROC/AUPRC.
 
@@ -152,9 +159,10 @@ The moderate precision means some `NonDemented` patients can be flagged as `Deme
 
 - The project uses **2D slices**, not full 3D MRI volumes.
 - The dataset is **small and imbalanced**.
-- Binary screening is more stable than 4-class severity classification, but less clinically granular.
+- Binary screening is less clinically granular than severity classification, but it was intentionally chosen to match the project screening objective.
 - The sensitivity-first operating point increases false positives.
 - The CNN baseline remains stronger in some ranking metrics such as AUROC/AUPRC.
+- The promising Internal Adapter pilot was evaluated only on Fold 1; full 5-fold validation was deferred because of project time constraints.
 - SAM is a general segmentation foundation model and should not be interpreted as Alzheimer-specific lesion segmentation.
 - The local LLM only summarizes structured model outputs.
 

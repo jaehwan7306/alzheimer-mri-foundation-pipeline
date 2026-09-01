@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1260" viewBox="0 0 1400 1260" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1040" viewBox="0 0 1400 1040" role="img" aria-labelledby="title desc">
   <title id="title">Project Decision Flow</title>
-  <desc id="desc">Eight research decisions from patient-level evaluation and sensitivity-first screening through lightweight adaptation, multi-foundation integration, and a post-project Internal Adapter 5-fold follow-up that retained the Adapter Probe.</desc>
+  <desc id="desc">Eight research decisions arranged as a compact serpentine flow: steps 1 to 3 across the first row, steps 4 to 6 back across the second row, then steps 7 and 8 together on the final row. The post-project Internal Adapter 5-fold follow-up retained the Adapter Probe.</desc>
   <defs>
     <style>
       .title { font: 700 38px Arial, sans-serif; fill: #1F2937; }
@@ -20,10 +20,11 @@
     </marker>
   </defs>
 
-  <rect width="1400" height="1260" fill="#FFFFFF"/>
+  <rect width="1400" height="1040" fill="#FFFFFF"/>
   <text x="700" y="58" text-anchor="middle" class="title">Project Decision Flow</text>
   <text x="700" y="91" text-anchor="middle" class="subtitle">Original project decisions are preserved, with the later ver19 follow-up shown as a separate validation step.</text>
 
+  <!-- Row 1: 1 → 2 → 3 -->
   <rect x="70" y="135" width="380" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
   <text x="100" y="170" class="step">STEP 01</text>
   <text x="100" y="208" class="card-title">Foundation-Model Starting Point</text>
@@ -48,6 +49,7 @@
   <line x1="450" y1="238" x2="502" y2="238" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
   <line x1="890" y1="238" x2="942" y2="238" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
 
+  <!-- Row 2: 6 ← 5 ← 4 -->
   <rect x="950" y="420" width="380" height="205" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
   <text x="980" y="455" class="step">STEP 04</text>
   <text x="980" y="493" class="card-title">Sensitivity-First Screening</text>
@@ -73,26 +75,26 @@
   <line x1="950" y1="523" x2="898" y2="523" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
   <line x1="510" y1="523" x2="458" y2="523" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
 
-  <rect x="390" y="700" width="620" height="175" rx="24" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
-  <text x="425" y="737" class="step">STEP 07</text>
-  <text x="425" y="777" class="card-title">Complete the Multi-Foundation System</text>
-  <text x="425" y="815" class="body">Use the fully evaluated adapter probe as the practical classifier,</text>
-  <text x="425" y="842" class="body">then integrate complementary foundation-model components.</text>
-  <text x="425" y="868" class="final">BiomedCLIP + SAM + Occlusion + Local LLM</text>
+  <!-- Row 3: 7 → 8 -->
+  <rect x="70" y="700" width="600" height="205" rx="24" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
+  <text x="105" y="737" class="step">STEP 07</text>
+  <text x="105" y="777" class="card-title">Complete the Multi-Foundation System</text>
+  <text x="105" y="815" class="body">Use the fully evaluated adapter probe as the practical classifier,</text>
+  <text x="105" y="842" class="body">then integrate complementary foundation-model components.</text>
+  <text x="105" y="873" class="final">BiomedCLIP + SAM + Occlusion + Local LLM</text>
 
-  <path d="M260 625 L260 655 L700 655 L700 692" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="730" y="700" width="600" height="205" rx="24" fill="#FAF5FF" stroke="#C4B5FD" stroke-width="2"/>
+  <text x="765" y="737" class="step">STEP 08 · POST-PROJECT FOLLOW-UP</text>
+  <text x="765" y="777" class="card-title">Close the Deferred Internal Adapter Branch</text>
+  <text x="765" y="815" class="body">Run the original ver14 setup across all 5 patient-level folds.</text>
+  <text x="765" y="842" class="body">Sensitivity: 0.8125 ± 0.1712; AUROC: 0.9014 ± 0.0321.</text>
+  <text x="765" y="873" class="follow">→ less stable across folds; retain Adapter Probe</text>
 
-  <rect x="330" y="930" width="740" height="205" rx="24" fill="#FAF5FF" stroke="#C4B5FD" stroke-width="2"/>
-  <text x="365" y="967" class="step">STEP 08 · POST-PROJECT FOLLOW-UP</text>
-  <text x="365" y="1007" class="card-title">Close the Deferred Internal Adapter Branch</text>
-  <text x="365" y="1045" class="body">Run the original ver14 setup across all 5 patient-level folds.</text>
-  <text x="365" y="1073" class="body">Sensitivity: 0.8125 ± 0.1712; AUROC: 0.9014 ± 0.0321.</text>
-  <text x="365" y="1103" class="follow">→ strong on some folds, but less stable; retain Adapter Probe</text>
+  <path d="M260 625 L260 665 L370 665 L370 692" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="670" y1="802" x2="722" y2="802" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
 
-  <path d="M700 875 L700 922" fill="none" stroke="#64748B" stroke-width="3" marker-end="url(#arrow)"/>
-
-  <rect x="145" y="1170" width="1110" height="70" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-  <text x="180" y="1200" class="principle-title">Decision principle</text>
-  <text x="345" y="1200" class="principle">Trustworthy patient-level evaluation first; then choose a sufficiently strong, efficient classifier.</text>
-  <text x="345" y="1224" class="principle">Single-fold gains remain provisional until cross-validation establishes stability.</text>
+  <rect x="145" y="950" width="1110" height="70" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="180" y="980" class="principle-title">Decision principle</text>
+  <text x="345" y="980" class="principle">Trustworthy patient-level evaluation first; then choose a sufficiently strong, efficient classifier.</text>
+  <text x="345" y="1004" class="principle">Single-fold gains remain provisional until cross-validation establishes stability.</text>
 </svg>

@@ -20,13 +20,19 @@ A patient-level Alzheimer MRI screening pipeline combining **BiomedCLIP**, **SAM
 
 The operating threshold was chosen for a **sensitivity-first screening setting**, where reducing false negatives is prioritized over maximizing precision.
 
-<p align="center">
-  <img src="assets/04_model_metric_comparison.png" alt="Model metric comparison" width="850" />
-</p>
-
 The BiomedCLIP adapter probe is the **final selected classifier**, chosen for sensitivity-first screening and parameter-efficient foundation-model adaptation. EfficientNet remains stronger on AUROC/AUPRC.
 
+A post-project follow-up completed the previously deferred **Internal Adapter 5-fold validation**. Its mean AUROC remained essentially comparable to the adapter probe (`0.9014` vs `0.9010`), but its mean sensitivity was lower (`0.8125` vs `0.8875`) and substantially more variable across folds (`SD 0.1712` vs `0.1118`). This follow-up therefore supports retaining the adapter probe rather than changing the final classifier.
+
 Full comparison: [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv)
+
+Internal Adapter follow-up artifacts:
+
+- [`results/internal_adapter_5fold_results.csv`](results/internal_adapter_5fold_results.csv)
+- [`results/internal_adapter_5fold_summary.csv`](results/internal_adapter_5fold_summary.csv)
+- [`results/internal_adapter_5fold_oof_predictions.csv`](results/internal_adapter_5fold_oof_predictions.csv)
+- [`results/internal_adapter_5fold_oof_metrics.json`](results/internal_adapter_5fold_oof_metrics.json)
+- [`results/internal_adapter_5fold_vs_adapter_probe.csv`](results/internal_adapter_5fold_vs_adapter_probe.csv)
 
 ## What This Project Does
 
@@ -58,7 +64,7 @@ Raw medical images are **not included in this repository**. Users who want to re
 
 ## Key Research Decisions
 
-A detailed record of the version-by-version rationale, scope changes, and deferred experiments is available in [`docs/research_decision_log.md`](docs/research_decision_log.md).
+A detailed record of the version-by-version rationale, scope changes, deferred experiments, and the later Internal Adapter follow-up is available in [`docs/research_decision_log.md`](docs/research_decision_log.md).
 
 ### 1. Preventing slice leakage
 
@@ -95,9 +101,23 @@ The adapter probe was selected as the **practical final classifier** because it 
 - It performed strongly relative to the fully evaluated LoRA experiment.
 - It achieved higher sensitivity than the CNN baseline, although the CNN remained stronger on some ranking metrics.
 
-The **Internal Adapter** produced a promising Fold-1 result (`Sensitivity = 0.9375`, `AUROC = 0.9016`), but full 5-fold validation was not completed because of project time constraints. It is therefore treated as a **deferred experiment, not a negative result**, and should not be directly compared with models evaluated across five folds.
+At the original project cutoff, the **Internal Adapter** remained only a Fold-1 pilot because the remaining project time was allocated to multi-foundation integration. Its Fold-1 result was promising (`Sensitivity = 0.9375`, `AUROC = 0.9016`), so it was correctly recorded as a deferred validation question rather than a negative result.
 
-The decision to stop deeper classifier-specific optimization was also a scope choice: the project aimed to preserve pretrained foundation-model representations with lightweight adaptation and then combine complementary foundation-model components, rather than exhaustively fine-tune one classifier.
+The later **ver19 follow-up** completed the same Internal Adapter configuration across all 5 patient-level folds. The result was more variable than the original Fold-1 pilot suggested:
+
+| Metric | Adapter Probe | Internal Adapter follow-up |
+|---|---:|---:|
+| Sensitivity mean | **0.8875** | 0.8125 |
+| Sensitivity SD | **0.1118** | 0.1712 |
+| Specificity mean | 0.8233 | 0.8235 |
+| Macro F1 mean | **0.8021** | 0.7748 |
+| AUROC mean | 0.9010 | **0.9014** |
+| AUPRC mean | **0.6947** | 0.6794 |
+| Trainable params | **133,762** | 199,298 |
+
+Internal Adapter sensitivity ranged from `0.5625` to `1.0000` across folds, and its selected validation threshold also varied substantially (`0.250` to `0.650`). Its ranking performance remained competitive, but the screening operating point was less stable. This follow-up strengthens the evidence for retaining the adapter probe as the final classifier.
+
+The decision to stop deeper classifier-specific optimization during the original project was still a scope choice: the project aimed to preserve pretrained foundation-model representations with lightweight adaptation and then combine complementary foundation-model components, rather than exhaustively fine-tune one classifier.
 
 > The conclusion is **not** that the foundation model beats CNNs in every metric. The EfficientNet baseline remains a strong supervised baseline, especially for AUROC/AUPRC.
 
@@ -137,7 +157,7 @@ The underlying structured input for OAS1_0199 contains patient-level `P(Demented
 
 ## Final Model Performance
 
-The table below reports **mean performance across the 5 patient-level folds**.
+The table below reports **mean performance across the 5 patient-level folds** for the selected adapter probe.
 
 | Metric | Value |
 |---|---:|
@@ -155,6 +175,8 @@ The moderate precision means some `NonDemented` patients can be flagged as `Deme
 
 `results/adapter_probe_oof_metrics.json` is retained as a raw audit artifact for pooled patient-level OOF performance. The README model-comparison values use the 5-fold mean values from [`results/final_model_comparison_table.csv`](results/final_model_comparison_table.csv).
 
+For the Internal Adapter follow-up, pooled OOF evaluation across the same 347 patients produced sensitivity `0.8148`, specificity `0.8233`, Macro F1 `0.7782`, AUROC `0.8975`, and AUPRC `0.6397`. These pooled OOF values are kept separate from the equal-weight 5-fold mean comparison.
+
 ## Limitations
 
 - The project uses **2D slices**, not full 3D MRI volumes.
@@ -162,7 +184,7 @@ The moderate precision means some `NonDemented` patients can be flagged as `Deme
 - Binary screening is less clinically granular than severity classification, but it was intentionally chosen to match the project screening objective.
 - The sensitivity-first operating point increases false positives.
 - The CNN baseline remains stronger in some ranking metrics such as AUROC/AUPRC.
-- The promising Internal Adapter pilot was evaluated only on Fold 1; full 5-fold validation was deferred because of project time constraints.
+- The Internal Adapter follow-up showed substantial fold-to-fold sensitivity and threshold variability, indicating that stronger encoder-internal adaptation was less stable under this dataset and evaluation setup.
 - SAM is a general segmentation foundation model and should not be interpreted as Alzheimer-specific lesion segmentation.
 - The local LLM only summarizes structured model outputs.
 
@@ -259,7 +281,7 @@ python scripts\05_generate_llm_reports.py --config config.local.json
 |-- environment.yml
 |-- src/dl_project_repro/       # reusable Python code
 |-- scripts/                    # step-by-step reproduction scripts
-|-- notebooks/                  # final reproducible notebook
+|-- notebooks/                  # reproducible notebook + follow-up validation
 |-- notebooks/archive/          # legacy experiment notebooks
 |-- docs/                       # project write-up and method notes
 |-- results/                    # saved CSV/JSON results
